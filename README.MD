@@ -1,7 +1,7 @@
 ### BRAIN DMG
 
 ## Getting Started
-Run npm run devstart
+Run `npm run devstart`
 
 
 
