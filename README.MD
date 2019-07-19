@@ -1,11 +1,9 @@
 ### BRAIN DMG
 
-Getting Started
+## Getting Started
 Run npm run devstart
 
 
 
 
-
-
-#By Ronny
+# By Ronny and Alan
