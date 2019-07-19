@@ -49,10 +49,21 @@ let interval = setInterval(() => {
 }, 1000);
 */
 
+let moveButtonHtml = `
+    <h1>YAYO YAYOOOOO</h1>
+    <form action="/" method="post">
+        <input type="radio" name="action" value="up" checked> Up<br>
+        <input type="radio" name="action" value="down"> Down<br>
+        <input type="radio" name="action" value="left"> Left<br>
+        <input type="radio" name="action" value="right"> Right<br>
+        <input type="submit" value="I am but a submit">
+    </form>
+`;
+
 world = createWorld(size);
 
 app.get('/', (req, res) => {
-    res.send(displayWorld(world));
+    res.send(displayWorld(world) + moveButtonHtml);
 });
 
 app.post('/', (req, res) => {
@@ -74,7 +85,7 @@ app.post('/', (req, res) => {
         default:
             break;
     }
-    res.send('huh');
+    res.redirect('/');
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
