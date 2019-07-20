@@ -24,25 +24,32 @@ let guy = {
     x: 0,
     y: 0
 }
+let guy2 = {
+    x: 5,
+    y: 5
+}
 
-var grass = `<img width="20" src="https://cdna.artstation.com/p/assets/images/images/006/295/124/large/sergiu-matei-grass-tile-pixel-art-rpg-top-view-indie-game-dev-matei-sergiu.jpg?1497472728"></img>`
-var water = `<img width="20" src="http://pixelartmaker.com/art/5951a04864c3c7b.png"</img>` 
+var grass = `<img width="20" src="https://cdna.artstation.com/p/assets/images/images/006/295/124/large/sergiu-matei-grass-tile-pixel-art-rpg-top-view-indie-game-dev-matei-sergiu.jpg?1497472728"></img>`;
+var water = `<img width="20" src="http://pixelartmaker.com/art/5951a04864c3c7b.png"</img>`;
 
 let displayWorld = (world) => {
     let res = "";
     for (let i = 0; i < world.length; ++i) {
         for (let j = 0; j < world[i].length; ++j) {
             // TODO DISPLAY GOOD
+
             let chance = Math.random() * 1;
             let display;
+
+            // I think this means there is a 25% chance for a tile being water. Leaving 75% chance to be grass.
             if (chance > 0.25) {
                 display = grass;
             } else {
                 display = water;
             }
             if (guy.x == j && guy.y == i) display = '<img width="20" alt="golem" title="golem" src="https://cdn.discordapp.com/attachments/545317396919877635/601936859626733598/unknown.png"></img>';
+            if (guy2.x == j && guy2.y == i) display ='<img width="20" alt="golem" title="golem" src="https://cdn.discordapp.com/attachments/545317396919877635/601936859626733598/unknown.png"></img>';
             res += `${display}`;
-
         }
         res += '<br />';
     }
@@ -79,8 +86,11 @@ let moveButtonHtml = `
             send a post request to / to move guy
         */
 
+        // keyCodes:
         // a=65 s=83 d=68 w=87
+        // i=73 j=74 k=75 l=76
         var action = "none";
+        var action2 = "none";
         window.addEventListener('keydown', function(e) {
             switch(e.keyCode) {
             case 65:
@@ -95,6 +105,18 @@ let moveButtonHtml = `
             case 87:
                 action = "up";
                 break;
+            case 74:
+                action2 = "left";
+                break;
+            case 75:
+                action2 = "down";
+                break;
+            case 76:
+                action2 = "right";
+                break;
+            case 73:
+                action2 = "up";
+                break;
             default:
                 action = "none";
             }
@@ -102,7 +124,8 @@ let moveButtonHtml = `
                 type: "POST",
                 url: "http://localhost:3000/",
                 data: {
-                    action: action
+                    action: action,
+                    action2: action2
                 },
                 success: function() {
                     console.log("Moved " + action);
@@ -122,6 +145,9 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
     console.log(req.body);
     let action = req.body.action;
+    let action2 = req.body.action2;
+
+    // Guy 1 movement
     switch (action) {
         case 'up':
             guy.y--;
@@ -134,6 +160,23 @@ app.post('/', (req, res) => {
             break;
         case 'right':
             guy.x++;
+            break;
+        default:
+            break;
+    }
+    // Guy 2 movement
+    switch (action2) {
+        case 'up':
+            guy2.y--;
+            break;
+        case 'down':
+            guy2.y++;
+            break;
+        case 'left':
+            guy2.x--;
+            break;
+        case 'right':
+            guy2.x++;
             break;
         default:
             break;
