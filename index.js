@@ -137,7 +137,7 @@ let moveButtonHtml = `
             }
             $.ajax({
                 type: "POST",
-                url: "http://localhost:3000/",
+                url: "/",
                 data: {
                     action: action,
                     action2: action2
@@ -146,7 +146,7 @@ let moveButtonHtml = `
                     console.log("Moved " + action);
                 }
             });
-            window.location.replace("http://localhost:3000/");
+            window.location.replace("/");
         });
     </script>
 `;
