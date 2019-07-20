@@ -8,6 +8,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const size = 30;
 let world;
+var grass = `<img width="20" src="https://cdna.artstation.com/p/assets/images/images/006/295/124/large/sergiu-matei-grass-tile-pixel-art-rpg-top-view-indie-game-dev-matei-sergiu.jpg?1497472728"></img>`;
+var water = `<img width="20" src="http://pixelartmaker.com/art/5951a04864c3c7b.png"</img>`;
 
 let createWorld = (size) => {
     let world = [];
@@ -29,24 +31,25 @@ let guy2 = {
     y: 5
 }
 
-var grass = `<img width="20" src="https://cdna.artstation.com/p/assets/images/images/006/295/124/large/sergiu-matei-grass-tile-pixel-art-rpg-top-view-indie-game-dev-matei-sergiu.jpg?1497472728"></img>`;
-var water = `<img width="20" src="http://pixelartmaker.com/art/5951a04864c3c7b.png"</img>`;
+function waterTileChance(display, chance) {
+    let grassChance = Math.random() * 1;
+    if (grassChance > chance) {
+        display = grass;
+    } else {
+        display = water;
+    }
+    return display;
+}
 
 let displayWorld = (world) => {
     let res = "";
     for (let i = 0; i < world.length; ++i) {
         for (let j = 0; j < world[i].length; ++j) {
             // TODO DISPLAY GOOD
-
-            let chance = Math.random() * 1;
             let display;
+            display = waterTileChance(display, 0.25);
 
             // I think this means there is a 25% chance for a tile being water. Leaving 75% chance to be grass.
-            if (chance > 0.25) {
-                display = grass;
-            } else {
-                display = water;
-            }
             if (guy.x == j && guy.y == i) display = '<img width="20" alt="golem" title="golem" src="https://cdn.discordapp.com/attachments/545317396919877635/601936859626733598/unknown.png"></img>';
             if (guy2.x == j && guy2.y == i) display ='<img width="20" alt="golem" title="golem" src="https://cdn.discordapp.com/attachments/545317396919877635/601936859626733598/unknown.png"></img>';
             res += `${display}`;
