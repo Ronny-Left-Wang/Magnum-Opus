@@ -90,7 +90,9 @@ let moveButtonHtml = `
         <button name="action2" value="right">Right</button><br><br>
     </form>
 
-    <input type="submit" value="Refresh page">
+    <form action="/reset" method="get">
+        <input type="submit" value="Reset World">
+    </form>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
@@ -155,6 +157,19 @@ world = createWorld(size);
 
 app.get('/', (req, res) => {
     res.send(displayWorld(world) + moveButtonHtml);
+});
+
+app.get('/reset', (req, res) => {
+    world = createWorld(size);
+    guy = {
+        x: 0,
+        y: 0
+    };
+    guy2 = {
+        x: 5,
+        y: 5
+    };
+    res.redirect('/');
 });
 
 app.post('/', (req, res) => {
