@@ -1,5 +1,7 @@
 ### BRAIN DMG
 
+![sample](/images/lily.png)
+
 ## Getting Started
 Run `npm run devstart`
 
