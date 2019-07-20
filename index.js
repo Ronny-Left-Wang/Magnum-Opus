@@ -71,12 +71,23 @@ let moveButtonHtml = `
     <h1>YAYO YAYOOOOO DREAMIN</h1>
     <!-- TODO Do in button form instead --> 
     <form action="/" method="post">
+        <h3>Guy 1 Controls</h3>
         <button name="action" value="up">Up</button><br>
         <button name="action" value="down">Down</button><br>
         <button name="action" value="left">Left</button><br>
         <button name="action" value="right">Right</button><br><br>
-        <input type="submit" value="Refresh page">
     </form>
+
+    <form action="/" method="post">
+        <h3>Guy 2 Controls</h3>
+        <button name="action2" value="up">Up</button><br>
+        <button name="action2" value="down">Down</button><br>
+        <button name="action2" value="left">Left</button><br>
+        <button name="action2" value="right">Right</button><br><br>
+    </form>
+
+    <input type="submit" value="Refresh page">
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
         // javascript
