@@ -55,6 +55,7 @@ let displayWorld = (world) => {
             if (guy.x == j && guy.y == i) display = '<img width="20" alt="golem" title="golem" src="https://cdn.discordapp.com/attachments/545317396919877635/601936859626733598/unknown.png"></img>';
             if (guy2.x == j && guy2.y == i) display ='<img width="20" alt="golem" title="golem" src="https://cdn.discordapp.com/attachments/545317396919877635/601936859626733598/unknown.png"></img>';
             if (bunny.x == j && bunny.y == i) display = img_bunny;
+
             res.push(display);
         }
         res.push('<br />');
@@ -72,9 +73,19 @@ let interval = setInterval(() => {
     */
     if (bunny.y != size - 1 && bunny.x != size - 1) {
         bunny.y++;
+    } else {
+        let chance = Math.random();
+        if (chance > 0.50) {
+            bunny.x--;
+        } else {
+            bunny.x++;
+        }
     }
-
-}, 1000);
+    if (bunny.y >= size || bunny.x >= size || bunny.x < 0 || bunny.y < 0) {
+        bunny.x = 10;
+        bunny.y = 10;
+    }
+}, 500);
 
 
 let moveButtonHtml = `
