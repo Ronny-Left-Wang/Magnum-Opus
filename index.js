@@ -53,12 +53,13 @@ let interval = setInterval(() => {
 
 let moveButtonHtml = `
     <h1>YAYO YAYOOOOO</h1>
-    <!-- TODO Do in button form instead --> <form action="/" method="post">
-        <input type="button" name="action" value="up"> Up<br>
-        <input type="radio" name="action" value="down"> Down<br>
-        <input type="radio" name="action" value="left"> Left<br>
-        <input type="radio" name="action" value="right"> Right<br>
-        <input type="submit" value="I am but a submit">
+    <!-- TODO Do in button form instead --> 
+    <form action="/" method="post">
+        <button name="action" value="up">Up</button><br>
+        <button name="action" value="down">Down</button><br>
+        <button name="action" value="left">Left</button><br>
+        <button name="action" value="right"> Right</button><br><br>
+        <input type="submit" value="Refresh page">
     </form>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
@@ -66,7 +67,7 @@ let moveButtonHtml = `
         /* TODO USE BUTTONS TO MOVE CHARACTER
         if dude press WASD then
             // use $.ajax
-            send a post request to / to move the niga
+            send a post request to / to move guy
         */
     </script>
 `;
