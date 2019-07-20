@@ -71,19 +71,17 @@ let interval = setInterval(() => {
     let randL = String.fromCharCode("A".charCodeAt(0) + Math.floor(Math.random() * 24));
     world[randI][randJ] = randL;
     */
-    if (bunny.y != size - 1 && bunny.x != size - 1) {
-        let chancex = Math.random();
-        let chancey = Math.random();
-        if (chancex > 0.50) {
-            bunny.x--;
-        } else {
-            bunny.x++;
-        }
-        if (chancey > 0.50) {
-            bunny.y--;
-        } else {
-            bunny.y++;
-        }
+    let chancex = Math.random();
+    let chancey = Math.random();
+    if (chancex > 0.50) {
+        bunny.x--;
+    } else {
+        bunny.x++;
+    }
+    if (chancey > 0.50) {
+        bunny.y--;
+    } else {
+        bunny.y++;
     }
     if (bunny.y >= size || bunny.x >= size || bunny.x < 0 || bunny.y < 0) {
         bunny.x = 10;
