@@ -72,13 +72,17 @@ let interval = setInterval(() => {
     world[randI][randJ] = randL;
     */
     if (bunny.y != size - 1 && bunny.x != size - 1) {
-        bunny.y++;
-    } else {
-        let chance = Math.random();
-        if (chance > 0.50) {
+        let chancex = Math.random();
+        let chancey = Math.random();
+        if (chancex > 0.50) {
             bunny.x--;
         } else {
             bunny.x++;
+        }
+        if (chancey > 0.50) {
+            bunny.y--;
+        } else {
+            bunny.y++;
         }
     }
     if (bunny.y >= size || bunny.x >= size || bunny.x < 0 || bunny.y < 0) {
