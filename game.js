@@ -1,3 +1,4 @@
+
 const size = 20;
 let world;
 
