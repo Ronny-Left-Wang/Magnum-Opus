@@ -5,6 +5,8 @@ const port = process.env.PORT || 3000;
 const Game = require('./game');
 const Html = require('./html');
 const Ascii = require('./ascii');
+// for canvas
+const Container = require('./canvas.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,7 +18,7 @@ let interval = setInterval(() => {
 }, 500);
 
 app.get('/', (req, res) => {
-    res.send(Game.displayWorld() + Html.moveButtonHtml + (Ascii.deer));
+    res.send(Container.container + Game.displayWorld() + Html.moveButtonHtml + Ascii.transgender(Ascii.deer));
 });
 
 app.get('/reset', (req, res) => {

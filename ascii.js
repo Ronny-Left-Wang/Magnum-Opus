@@ -1,23 +1,29 @@
-let deer = `
-<pre> 
-\\    / 
-\\_/  ___   ___
-o o-'   '''   '
-O -.         |
-    | |'''| |
-     ||   | |
-     ||    ||
-     "     "
-</pre>`;
+let deer = ` 
+    \\  /
+    \\_/  ___   ___
+    o o-'   '''   '
+    O -.         |
+        | |'''| |
+         ||   | |
+         ||    ||
+         "     "
+`;
 
-function test(s) {
-    s.replace('_', "<br>");
-    return s;
+function transgender(s) {
+    let s2 = [];
+    s2[0] = "<pre>"
+    s2[s.length-1] = "</pre>";
+    for (let i = 1; i < s.length - 1; i++) {
+        if (s[i] == '\n') {
+            s2[i] = '<br>';
+        } else {
+            s2[i] = s[i];
+        }
+    }
+    return s2.join("");
 }
-
-console.log(deer.length);
-console.log(test(deer));
 
 module.exports = {
     deer,
+    transgender
 }
