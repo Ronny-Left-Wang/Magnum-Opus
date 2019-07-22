@@ -18,7 +18,11 @@ let interval = setInterval(() => {
 }, 500);
 
 app.get('/', (req, res) => {
-    res.send(Container.container + Game.displayWorld() + Html.moveButtonHtml + Ascii.transgender(Ascii.deer));
+    res.send(Game.displayWorld() + Html.moveButtonHtml + Ascii.transgender(Ascii.deer));
+});
+
+app.get('/canvas', (req, res) => {
+    res.send(Container.container);
 });
 
 app.get('/reset', (req, res) => {

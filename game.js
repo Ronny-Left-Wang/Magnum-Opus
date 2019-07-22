@@ -1,4 +1,3 @@
-
 const size = 20;
 let world;
 
@@ -129,4 +128,3 @@ module.exports = {
     displayWorld,
     moveGuy,
 }
-
