@@ -127,4 +127,5 @@ module.exports = {
     resetWorld,
     displayWorld,
     moveGuy,
+    world
 }

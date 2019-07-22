@@ -5,11 +5,12 @@ const port = process.env.PORT || 3000;
 const Game = require('./game');
 const Html = require('./html');
 const Ascii = require('./ascii');
-// for canvas
-const Container = require('./canvas.js');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.set('views', __dirname + '/jiews');
+app.set('view engine', 'hbs');
 
 Game.createWorld();
 
@@ -22,7 +23,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/canvas', (req, res) => {
-    res.send(Container.container);
+    res.render('canvas', {'gay': 'lady'});
 });
 
 app.get('/reset', (req, res) => {
