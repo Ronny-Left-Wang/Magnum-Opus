@@ -23,7 +23,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/canvas', (req, res) => {
-    res.render('canvas', {'gay': 'lady'});
+    console.log(Game.getWorld());
+    console.log(Game);
+    res.render('canvas', {'world': JSON.stringify(Game.getWorld())});
 });
 
 app.get('/reset', (req, res) => {

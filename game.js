@@ -79,7 +79,7 @@ let updateWorld = () => {
     }
 };
 
-let resetWorld = (world) => {
+let resetWorld = () => {
     createWorld();
     guy = {
         x: 0,
@@ -121,11 +121,13 @@ let moveGuy = (guyNumber, action) => {
     }
 }
 
+let getWorld = () => world;
+
 module.exports = {
     createWorld,
     updateWorld,
     resetWorld,
     displayWorld,
     moveGuy,
-    world
+    getWorld
 }
