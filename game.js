@@ -129,5 +129,8 @@ module.exports = {
     resetWorld,
     displayWorld,
     moveGuy,
-    getWorld
+    getWorld,
+    guy,
+    guy2,
+    bunny
 }

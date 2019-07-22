@@ -23,9 +23,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/canvas', (req, res) => {
-    console.log(Game.getWorld());
+    // console.log(Game.getWorld());
+    // Returns the exported modules and tells you what if it is a function.
     console.log(Game);
-    res.render('canvas', {'gameWorld': JSON.stringify(Game.getWorld())});
+    // noice...
+    res.render('canvas', {'guy': JSON.stringify(Game.guy), 'gameWorld': JSON.stringify(Game.getWorld())});
 });
 
 app.get('/reset', (req, res) => {
