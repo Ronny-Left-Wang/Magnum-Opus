@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 app.get('/canvas', (req, res) => {
     console.log(Game.getWorld());
     console.log(Game);
-    res.render('canvas', {'world': JSON.stringify(Game.getWorld())});
+    res.render('canvas', {'gameWorld': JSON.stringify(Game.getWorld())});
 });
 
 app.get('/reset', (req, res) => {

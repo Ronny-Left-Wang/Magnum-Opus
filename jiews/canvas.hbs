@@ -2,7 +2,8 @@
     <body>
         <canvas id="game" width="400" height="400" style="border:1px solid #000000;"></canvas>
         <script>
-            function createWorld() {
+            function displayWorld(world) {
+                // TODO make it color the right tiles with the data
                 let c = document.getElementById("game");
                 let ctx = c.getContext('2d');
                 let width = c.width;
@@ -49,9 +50,10 @@
                 }
             }
 
-            let world = {{{world}}};
+            let world = {{{gameWorld}}};
+            console.log(world);
 
-            createWorld();
+            displayWorld(world);
         </script>
     </body>
 
