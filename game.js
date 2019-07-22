@@ -9,7 +9,23 @@ let imgBunny = `<img width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEU
 let imgTree = `<img width="20" height="20" src="https://rsknowledge.files.wordpress.com/2010/10/normal_tree1.png"</img>`;
 
 let trees = [];
-let guys = [];
+let guy1arr = [];
+let guy2arr = [];
+
+let guy = {
+    x: 0,
+    y: 0
+}
+let guy2 = {
+    x: 5,
+    y: 5
+}
+let bunny = {
+    x: 10,
+    y: 10
+}
+guy1arr.push(guy);
+guy2arr.push(guy2);
 
 let displayWorld = () => {
     let res = [];
@@ -18,14 +34,26 @@ let displayWorld = () => {
 
             if (world[i][j] == 'W') {
                 display = imgWater;
-            } else if (world[i][j] == 'T') {
-                display = imgTree;
             } else {
                 display = imgGrass;
             }
-            if (guy.x == j && guy.y == i) display = imgGuy1;
-            if (guy2.x == j && guy2.y == i) display = imgGuy2;
-            if (bunny.x == j && bunny.y == i) display = imgBunny;
+            if (guy.x == j && guy.y == i) {
+                display = imgGuy1;
+                guy1arr.push({
+                    x: guy.x,
+                    y: guy.y
+                });
+            }
+            if (guy2.x == j && guy2.y == i) {
+                display = imgGuy2;
+                guy2arr.push({
+                    x: guy2.x,
+                    y: guy2.y
+                });
+            }
+            if (bunny.x == j && bunny.y == i) {
+                display = imgBunny;
+            }
 
             res.push(display);
         }
@@ -41,31 +69,17 @@ let createWorld = () => {
         for (let j = 0; j < size; ++j) {
             world[i][j] = 'D';
             let chance = Math.random();
-            if (chance > .75) world[i][j] = 'W';
-
+            if (chance > 0.75) world[i][j] = 'W';
             if (world [i][j] != 'W') {
-                if (Math.random() > 0.95) {
+                if (Math.random() > 0.92) {
                     trees.push({
-                        x: j,
-                        y: i
+                        x: i,
+                        y: j
                     });
                 }
             }
         }
     }
-}
-
-let guy = {
-    x: 0,
-    y: 0
-}
-let guy2 = {
-    x: 5,
-    y: 5
-}
-let bunny = {
-    x: 10,
-    y: 10
 }
 
 let updateWorld = () => {
@@ -138,8 +152,8 @@ module.exports = {
     displayWorld,
     moveGuy,
     getWorld,
-    guy,
-    guy2,
+    guy1arr,
+    guy2arr,
     bunny,
     trees,
 }

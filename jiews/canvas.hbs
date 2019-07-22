@@ -27,21 +27,22 @@
                 imgGuy.src ="https://cdn.discordapp.com/attachments/545317396919877635/601936859626733598/unknown.png";
                 imgTree.src="https://rsknowledge.files.wordpress.com/2010/10/normal_tree1.png";
                 // TODO draw bunny and guy
-                /* TODO render trees properly, look in all the trees and draw them. Make it not draw on water tiles,
+                /* TODO render trees properly, look in all the trees and draw them.
                  *  render tree in root page, only tree if not water. fix guy image, remove green background cause
                  *  transparent. Render the tiles instead of using colors. #136d15 better green. Unless i like it.
                  */
 
-                let guy = {{{guy}}};
+                let guy1arr = {{{guy1arr}}};
+                let guy2arr = {{{guy2arr}}};
                 let trees = {{{trees}}};
                 let bunny = {{{bunny}}};
 
                 // Fills tiles with green and blue
                 for (let i = 0; i < width/20; i++) {
                     for (let j = 0; j < width/20; j++) {
-                        if (world[i][j] == 'D') {
+                        if (world[j][i] == 'D') {
                             ctx.fillStyle = "#00FF00";
-                        } else if (world[i][j] == 'W') {
+                        } else if (world[j][i] == 'W') {
                             ctx.fillStyle = "#0066FF";
                         }
                         ctx.fillRect(j * 20, i * 20, 20, 20);
@@ -49,23 +50,17 @@
                     x = 0;
                 }
 
-                // Have an ARRAY of GUYS
-                /*
-                // draw guy
-                for (let i = 0; i < width/20; i++) {
-                    for (let j = 0; j < width/20; j++) {
-                        if (guy.x == (j * 20) && guy.y == (i * 20)) {
-                            ctx.drawImage(imgGuy, guy.x * 20, guy.y * 20, 20, 20);
-                        }
-                    }
-                }
-                */
-
                 // draw objects
                 for (let i = 0; i < trees.length; ++i) {
                     let tree = trees[i];
                     ctx.drawImage(imgTree, tree.x * 20, tree.y * 20, 20, 20);
                 }
+
+                // GUY MOVEMENT, will only draw guy1's latest position, but the array will have all his movements.
+                let guy = guy1arr[guy1arr.length-1];
+                let guy2 = guy2arr[guy2arr.length-1];
+                ctx.drawImage(imgGuy, guy.x * 20, guy.y * 20, 20, 20);
+                ctx.drawImage(imgGuy, guy2.x * 20, guy2.y * 20, 20, 20);
 
                 // i cant believe i figured out how to do this so fast.heehee. ; /
                 // Draws grid pattern.
@@ -86,7 +81,7 @@
             }
 
             let world = {{{gameWorld}}};
-            console.log(world)
+            console.log({{{guy1arr}}})
 
             displayWorld(world);
         </script>
