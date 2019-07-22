@@ -9,6 +9,7 @@ let imgBunny = `<img width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEU
 let imgTree = `<img width="20" height="20" src="https://rsknowledge.files.wordpress.com/2010/10/normal_tree1.png"</img>`;
 
 let trees = [];
+let guys = [];
 
 let displayWorld = () => {
     let res = [];
@@ -42,11 +43,13 @@ let createWorld = () => {
             let chance = Math.random();
             if (chance > .75) world[i][j] = 'W';
 
-            if (Math.random() > 0.95) {
-                trees.push({
-                    x: j,
-                    y: i
-                });
+            if (world [i][j] != 'W') {
+                if (Math.random() > 0.95) {
+                    trees.push({
+                        x: j,
+                        y: i
+                    });
+                }
             }
         }
     }
