@@ -26,52 +26,40 @@
                 let imgTree = new Image;
 
                 imgGuy.src ='https://cdn.discordapp.com/attachments/545317396919877635/601936859626733598/unknown.png';
+                imgTree.src="https://rsknowledge.files.wordpress.com/2010/10/normal_tree1.png";
+                // TODO draw bunny and guy
 
                 let guy = {{{guy}}};
+                let trees = {{{trees}}};
 
                 // Fills tiles with green and blue
-                // while (y != width) {
-                    // let chance = Math.random();
-                    /*
-                    if (chance > 0.20) {
-                        ctx.fillStyle = "#00FF00";
-                    } else {
-                        ctx.fillStyle = "#0066FF";
-                    }
-                    ctx.fillRect(x, y, 20, 20);
-                    x += 20;
-                    if (x == width) {
-                        y += 20;
-                        x = 0;
-                    }
-                    */
-                    for (let i = 0; i < width/20; i++) {
-                        for (let j = 0; j < width/20; j++) {
-                            if (world[i][j] == 'D') {
-                                ctx.fillStyle = "#00FF00";
-                            } else if (world[i][j] == 'W') {
-                                ctx.fillStyle = "#0066FF";
-                            } else if (world[i][j] == 'T') {
-                                ctx.drawImage(imgTree, x, y, 20, 20);
-                            }
-                            ctx.fillRect(x, y, 20, 20);
-                            if (guy.x == && guy.y == ) {
-                                ctx.drawImage(imgGuy, guy.x, guy.y, 20, 20);
-                            } 
-                            x += 20;
+                for (let i = 0; i < width/20; i++) {
+                    for (let j = 0; j < width/20; j++) {
+                        if (world[i][j] == 'D') {
+                            ctx.fillStyle = "#00FF00";
+                        } else if (world[i][j] == 'W') {
+                            ctx.fillStyle = "#0066FF";
                         }
-                        y += 20;
-                        x = 0;
+                        ctx.fillRect(j * 20, i * 20, 20, 20);
                     }
-                // }
+                    x = 0;
+                }
+                /*
+                if (guy.x == j && guy.y == i) {
+                    ctx.drawImage(imgGuy, guy.x * 20, guy.y * 20, 20, 20);
+                }
+                */
+                // draw objects
+                for (let i = 0; i < trees.length; ++i) {
+                    let ree = trees[i];
+                    ctx.drawImage(imgTree, ree.x * 20, ree.y * 20, 20, 20);
+                }
 
-                // Wow i found 2 ways to do this. lol
-                // ctx.fillStyle = "#00FF00";
-                // ctx.fillRect(0, 0, width, height);
-                y = 20;
-                x = 20;
+                // i cant believe i figured out how to do this so fast.heehee. ; /
 
                 // Draws grid pattern.
+                y = 20;
+                x = 20;
                 while (y != width) {
                     ctx.beginPath();
                     ctx.moveTo(x, 0);
@@ -87,8 +75,6 @@
             }
 
             let world = {{{gameWorld}}};
-            console.log(Array.isArray(world));
-            console.log(world);
 
             displayWorld(world);
         </script>
