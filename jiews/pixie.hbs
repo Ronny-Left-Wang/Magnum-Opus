@@ -60,6 +60,7 @@
             let guy2Arr = {{{guy2arr}}};
             let bunnyArr = {{{bunnyarr}}};
             let trees = {{{trees}}};
+            let gameWorld = {{{gameWorld}}};
 
             app.renderer.backgroundColor = 0xFFFFFF;
             app.renderer.view.style = "border:1px solid #000000;";
@@ -98,9 +99,9 @@
                 guy2.width = 20;
                 guy2.height = 20;
 
-                app.stage.addChild(bunny);
                 app.stage.addChild(guy1);
                 app.stage.addChild(guy2);
+                app.stage.addChild(bunny);
 
                 for (let i = 0; i < trees.length; i++) {
                     for (let j = 0; j < trees.length; j++) {
@@ -119,6 +120,21 @@
             }
             // Stopped reading at positioning sprites.
 
+            let tile = new Graphics();
+            // Fills tiles with green and blue
+            for (let i = 0; i < gameWidth/20; i++) {
+                for (let j = 0; j < gameWidth/20; j++) {
+                    if (gameWorld[i][j] == 'D') {
+                        tile.beginFill(0x136D15);
+                    } else if (gameWorld[i][j] == 'W') {
+                        tile.beginFill(0x0033cc);
+                    }
+                    tile.drawRect(j * 20, i * 20, 20, 20);
+                    tile.endFill();
+                }
+            }
+
+            app.stage.addChild(tile);
             // TODO Create the grid and tiles
             let x = 20;
             let y = 20;
