@@ -41,7 +41,8 @@
             let Application = PIXI.Application,
                 loader = PIXI.loader,
                 resources = PIXI.loader.resources,
-                Sprite = PIXI.Sprite; 
+                Sprite = PIXI.Sprite,
+                Graphics = PIXI.Graphics;
 
             let app = new Application({
                 width: 400,
@@ -51,6 +52,11 @@
                 resolution: 1
             });
 
+            let gameHeight = app.renderer.view.height;
+            let gameWidth = app.renderer.view.width;
+
+            app.renderer.backgroundColor = 0xFFFFFF;
+            app.renderer.view.style = "border:1px solid #000000;";
             // This adds the canvas Pixi automatically created to the HTML document
             document.body.appendChild(app.view);
 
@@ -62,7 +68,6 @@
                 ])
                 .load(setup);
 
-
             function setup() {
                 // Code that runs after loader is finished loading image.
                 let bunny = new Sprite(resources["../public/images/bunny.png"].texture);
@@ -71,19 +76,26 @@
                 app.stage.addChild(golem);
                 // To make DISAPPEAR: bunny.visible = false;
             }
-
             // Stopped at positioning sprites.
 
-
             // TODO Create the grid and tiles
-                
+            let x = 20;
+            let y = 20;
+            let line = new Graphics();
+            line.lineStyle(2, 0x09370A, 1);
+            while (x < gameHeight) {
+                line.moveTo(x, 0);
+                line.lineTo(x, gameHeight);
+                app.stage.addChild(line);
+                line.moveTo(0, y);
+                line.lineTo(gameWidth, y);
+                y += 20;
+                x += 20;
+            }
 
             // TODO Set the sprites to the proper positions and size
-
             // TODO Make the bunny move randomly
-
             // TODO Add key listeners to move the guys
-
         </script>
     </body>
 </html>
