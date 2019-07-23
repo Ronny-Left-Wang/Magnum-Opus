@@ -111,6 +111,7 @@ let updateWorld = () => {
 };
 
 let resetWorld = () => {
+    trees = [];
     createWorld();
     guy = {
         x: 0,
