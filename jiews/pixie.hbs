@@ -3,16 +3,17 @@
     <body>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.0/pixi.min.js"></script>
         <script>
-            let app = new PIXI.Application({width: 400, height: 400});
             // TODO Load and draw sprites from root page (can be any size and position)
-            document.body.appendChild(app.view);
+            // let app = new PIXI.Application({width: 400, height: 400});
+            // document.body.appendChild(app.view);
 
             /* Converts ordinary image file to  WebGL texture. Pixi uses texture cache to 
                 store all the texture sprites. */
-            PIXI.utils.TextureCache["../public/images/bunny.png"];
+            // PIXI.utils.TextureCache["../public/images/bunny.png"];
             // Using Pixi's sprite class to make new sprite using the texture.
             // let texture = PIXI.utils.TextureCache["../public/images/bunny.png"];
             // loader loads the image and converts it into a texture.
+            /*
             PIXI.loader
                 .add([
                     "../public/images/bunny.png",
@@ -23,12 +24,59 @@
 
             function setup() {
                 // Code that runs after loader is finished loading image.
-                let sprite = new PIXI.Sprite(PIXI.loader.resources["../public/images/bunny.png"].texture);
-                app.stage.addChild(sprite);
+                let bunny = new PIXI.Sprite(PIXI.loader.resources["../public/images/bunny.png"].texture);
+                let golem = new PIXI.Sprite(PIXI.loader.resources["../public/images/golem.png"].texture);
+                app.stage.addChild(bunny);
+                app.stage.addChild(golem);
+                // To make DISAPPEAR: bunny.visible = false;
             }
+            */
+
+            /* Aliases for less typing: 
+                let TextureCache = PIXI.utils.TextureCache
+                let texture = TextureCache["images/cat.png
+             */
+
+            /*** BETTER VERSION using aliases ***/
+            let Application = PIXI.Application,
+                loader = PIXI.loader,
+                resources = PIXI.loader.resources,
+                Sprite = PIXI.Sprite; 
+
+            let app = new Application({
+                width: 400,
+                height: 400,
+                antialias: true,
+                transparent: false,
+                resolution: 1
+            });
+
+            // This adds the canvas Pixi automatically created to the HTML document
+            document.body.appendChild(app.view);
+
+            loader
+                .add([
+                    "../public/images/bunny.png",
+                    "../public/images/tree.png",
+                    "../public/images/golem.png"
+                ])
+                .load(setup);
+
+
+            function setup() {
+                // Code that runs after loader is finished loading image.
+                let bunny = new Sprite(resources["../public/images/bunny.png"].texture);
+                let golem = new Sprite(resources["../public/images/golem.png"].texture);
+                app.stage.addChild(bunny);
+                app.stage.addChild(golem);
+                // To make DISAPPEAR: bunny.visible = false;
+            }
+
+            // Stopped at positioning sprites.
 
 
             // TODO Create the grid and tiles
+                
 
             // TODO Set the sprites to the proper positions and size
 
