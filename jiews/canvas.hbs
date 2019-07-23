@@ -22,14 +22,12 @@
                 let imgBunny = new Image;
                 let imgTree = new Image;
 
-                imgBunny.src ="https://imgur.com/SMWlhBi.png";
-                imgGuy.src ="https://imgur.com/yEsI4IX.png";
-                imgTree.src="https://rsknowledge.files.wordpress.com/2010/10/normal_tree1.png";
+                imgBunny.src ="/public/images/bunny.png";
+                imgGuy.src ="/public/images/golem.png";
+                imgTree.src="/public/images/tree.png";
 
-                // TODO draw bunny and guy
                 /* TODO render trees properly, look in all the trees and draw them.
-                 *  render tree in root page, only tree if not water. fix guy image, remove green background cause
-                 *  transparent. Render the tiles instead of using colors. Unless i like it.
+                 * render tree in root page
                  */
 
                 let guy1arr = {{{guy1arr}}};
@@ -49,7 +47,7 @@
                     }
                 }
 
-                // draw objects
+                // Draw objects
                 imgTree.onload = function() {
                     for (let i = 0; i < trees.length; ++i) {
                         let tree = trees[i];
@@ -58,7 +56,6 @@
                 }
 
                 //MOVEMENT, will only draw latest position, but the array will have all movements.
-
                 let guy = guy1arr[guy1arr.length-1];
                 let guy2 = guy2arr[guy2arr.length-1];
                 let bunny = bunnyarr[bunnyarr.length-1];
@@ -70,7 +67,6 @@
                     ctx.drawImage(imgBunny, bunny.x * 20, bunny.y * 20, 20, 20);
                 }
 
-                // i cant believe i figured out how to do this so fast.heehee. ; /
                 // Draws grid pattern.
                 while (y != width) {
                     ctx.beginPath();
