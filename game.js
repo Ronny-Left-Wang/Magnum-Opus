@@ -125,6 +125,9 @@ let resetWorld = () => {
         x: 10,
         y: 10
     }
+    guy1arr = [];
+    guy2arr = [];
+    bunnyarr = [];
 }
 
 let moveGuy = (guyNumber, action) => {
