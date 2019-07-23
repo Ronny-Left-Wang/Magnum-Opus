@@ -57,6 +57,7 @@
 
             let guy1Arr = {{{guy1arr}}};
             let bunnyArr = {{{bunnyarr}}};
+            let trees = {{{trees}}};
 
             app.renderer.backgroundColor = 0xFFFFFF;
             app.renderer.view.style = "border:1px solid #000000;";
@@ -77,10 +78,26 @@
                 let guy1 = new Sprite(resources["../public/images/golem.png"].texture);
                 let bunnyPos = bunnyArr[bunnyArr.length - 1];
                 let guy1Pos = guy1Arr[guy1Arr.length - 1];
+                let tree; 
+
                 bunny.x = bunnyPos.x * 20;
                 bunny.y = bunnyPos.y * 20;
                 guy1.x = guy1Pos.x * 20;
                 guy1.y = guy1Pos.y * 20;
+                for (let i = 0; i < trees.length; i++) {
+                    for (let j = 0; j < trees.length; j++) {
+                        for (let treeIndex = 0; treeIndex < trees.length; treeIndex++) {
+                            if (trees[treeIndex].x == j && trees[treeIndex].y == i) {
+                                tree = new Sprite(resources["../public/images/tree.png"].texture);
+                                tree.x = j * 20;
+                                tree.y = i * 20;
+                                tree.width = 20;
+                                tree.height = 20;
+                                app.stage.addChild(tree);
+                            }
+                        }
+                    }
+                }
 
                 bunny.width = 20;
                 bunny.height = 20;

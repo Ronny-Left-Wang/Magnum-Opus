@@ -62,7 +62,7 @@ app.post('/', (req, res) => {
         Game.moveGuy(2, action2);
     }
 
-    res.redirect('/');
+    return res.redirect('/');
 });
 
 app.post('/pixie', (req, res) => {
