@@ -72,6 +72,11 @@
                 // Code that runs after loader is finished loading image.
                 let bunny = new Sprite(resources["../public/images/bunny.png"].texture);
                 let golem = new Sprite(resources["../public/images/golem.png"].texture);
+                bunny.width = 20;
+                bunny.height = 20;
+                golem.width = 20;
+                golem.height = 20;
+                golem.x = 20;
                 app.stage.addChild(bunny);
                 app.stage.addChild(golem);
                 // To make DISAPPEAR: bunny.visible = false;
