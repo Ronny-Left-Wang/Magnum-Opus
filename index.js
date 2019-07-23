@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 app.get('/canvas', (req, res) => {
     // console.log(Game.getWorld());
     res.render('canvas', {'trees': JSON.stringify(Game.trees), 
-        'bunny': JSON.stringify(Game.bunny),
+        'bunny': JSON.stringify(Game.bunnyarr),
         'guy1arr': JSON.stringify(Game.guy1arr), 
         'guy2arr': JSON.stringify(Game.guy2arr), 
         'bunnyarr': JSON.stringify(Game.bunnyarr), 
@@ -46,7 +46,6 @@ app.post('/', (req, res) => {
     if (action) {
         Game.moveGuy(1, action);
     }
-
     if (action2) {
         Game.moveGuy(2, action2);
     }

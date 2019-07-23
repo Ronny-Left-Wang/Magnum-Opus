@@ -1,12 +1,12 @@
 const size = 20;
 let world;
 
-let imgGuy1 = '<img rel="prefetch" width="20" alt="golem" title="golem" src="/public/images/golem.png"></img>';
-let imgGuy2 = '<img rel="prefetch" width="20" alt="golem" title="golem" src="/public/images/golem.png"></img>';
-let imgGrass = `<img rel="prefetch" width="20" src="/public/images/grass.png"></img>`;
-let imgWater = `<img rel="prefetch" width="20" src="/public/images/water.png"</img>`;
-let imgBunny = `<img rel="prefetch" width="20" height="20" src="/public/images/bunny.png"></img>`;
-let imgTree = `<img rel="prefetch" width="20" height="20" src="/public/images/tree.png"</img>`;
+let imgGuy1 = '<img width="20" alt="golem" title="golem" src="/public/images/golem.png"></img>';
+let imgGuy2 = '<img width="20" alt="golem" title="golem" src="/public/images/golem.png"></img>';
+let imgGrass = `<img width="20" height="20" src="/public/images/Grass.png"></img>`;
+let imgWater = `<img width="20" src="/public/images/water.png"</img>`;
+let imgBunny = `<img width="20" height="20" src="/public/images/bunny.png"></img>`;
+let imgTree = `<img width="20" height="20" src="/public/images/tree.png"</img>`;
 
 let trees = [];
 let guy1arr = [];
@@ -33,7 +33,6 @@ let displayWorld = () => {
     let res = [];
     for (let i = 0; i < world.length; ++i) {
         for (let j = 0; j < world[i].length; ++j) {
-
             if (world[i][j] == 'W') {
                 display = imgWater;
             } else {
@@ -59,8 +58,12 @@ let displayWorld = () => {
                     x: bunny.x,
                     y: bunny.y
                 });
+            } 
+            for (let treeIndex = 0; treeIndex < trees.length; treeIndex++) {
+                if (trees[treeIndex].x == j && trees[treeIndex].y == i) {
+                    display = imgTree;
+                }
             }
-
             res.push(display);
         }
         res.push('<br />');
