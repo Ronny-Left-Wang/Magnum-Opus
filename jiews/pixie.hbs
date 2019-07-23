@@ -57,6 +57,7 @@
             let gameWidth = app.renderer.view.width;
 
             let guy1Arr = {{{guy1arr}}};
+            let guy2Arr = {{{guy2arr}}};
             let bunnyArr = {{{bunnyarr}}};
             let trees = {{{trees}}};
 
@@ -77,22 +78,30 @@
                 // Code that runs after loader is finished loading image.
                 let bunny = new Sprite(resources["../public/images/bunny.png"].texture);
                 let guy1 = new Sprite(resources["../public/images/golem.png"].texture);
+                let guy2 = new Sprite(resources["../public/images/golem.png"].texture);
                 let bunnyPos = bunnyArr[bunnyArr.length - 1];
                 let guy1Pos = guy1Arr[guy1Arr.length - 1];
+                let guy2Pos = guy2Arr[guy2Arr.length - 1];
                 let tree; 
 
                 bunny.x = bunnyPos.x * 20;
                 bunny.y = bunnyPos.y * 20;
                 guy1.x = guy1Pos.x * 20;
                 guy1.y = guy1Pos.y * 20;
+                guy2.x = guy2Pos.x * 20;
+                guy2.y = guy2Pos.y * 20;
 
                 bunny.width = 20;
                 bunny.height = 20;
                 guy1.width = 20;
                 guy1.height = 20;
+                guy2.width = 20;
+                guy2.height = 20;
 
                 app.stage.addChild(bunny);
                 app.stage.addChild(guy1);
+                app.stage.addChild(guy2);
+
                 for (let i = 0; i < trees.length; i++) {
                     for (let j = 0; j < trees.length; j++) {
                         for (let treeIndex = 0; treeIndex < trees.length; treeIndex++) {
