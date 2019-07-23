@@ -8,3 +8,5 @@ Run `npm run devstart`
 
 
 ### By Ronny and Alan
+
+![sample](/public/images/bunnyOnGolem.png)
