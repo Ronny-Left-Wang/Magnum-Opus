@@ -11,6 +11,7 @@ let imgTree = `<img width="20" height="20" src="https://rsknowledge.files.wordpr
 let trees = [];
 let guy1arr = [];
 let guy2arr = [];
+let bunnyarr = [];
 
 let guy = {
     x: 0,
@@ -26,6 +27,7 @@ let bunny = {
 }
 guy1arr.push(guy);
 guy2arr.push(guy2);
+bunnyarr.push(bunny);
 
 let displayWorld = () => {
     let res = [];
@@ -53,6 +55,10 @@ let displayWorld = () => {
             }
             if (bunny.x == j && bunny.y == i) {
                 display = imgBunny;
+                bunnyarr.push({
+                    x: bunny.x,
+                    y: bunny.y
+                });
             }
 
             res.push(display);
@@ -73,8 +79,8 @@ let createWorld = () => {
             if (world [i][j] != 'W') {
                 if (Math.random() > 0.92) {
                     trees.push({
-                        x: i,
-                        y: j
+                        x: j,
+                        y: i
                     });
                 }
             }
@@ -154,6 +160,6 @@ module.exports = {
     getWorld,
     guy1arr,
     guy2arr,
-    bunny,
+    bunnyarr,
     trees,
 }

@@ -8,6 +8,7 @@ const Ascii = require('./ascii');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/public", express.static(__dirname + '/public'));
 
 app.set('views', __dirname + '/jiews');
 app.set('view engine', 'hbs');
@@ -29,6 +30,7 @@ app.get('/canvas', (req, res) => {
         'bunny': JSON.stringify(Game.bunny),
         'guy1arr': JSON.stringify(Game.guy1arr), 
         'guy2arr': JSON.stringify(Game.guy2arr), 
+        'bunnyarr': JSON.stringify(Game.bunnyarr), 
         'gameWorld': JSON.stringify(Game.getWorld())
     });
 });
