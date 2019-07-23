@@ -2,6 +2,7 @@
 <html>
     <body>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.0/pixi.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script>
             // TODO Load and draw sprites from root page (can be any size and position)
             // let app = new PIXI.Application({width: 400, height: 400});
@@ -84,6 +85,14 @@
                 bunny.y = bunnyPos.y * 20;
                 guy1.x = guy1Pos.x * 20;
                 guy1.y = guy1Pos.y * 20;
+
+                bunny.width = 20;
+                bunny.height = 20;
+                guy1.width = 20;
+                guy1.height = 20;
+
+                app.stage.addChild(bunny);
+                app.stage.addChild(guy1);
                 for (let i = 0; i < trees.length; i++) {
                     for (let j = 0; j < trees.length; j++) {
                         for (let treeIndex = 0; treeIndex < trees.length; treeIndex++) {
@@ -98,14 +107,6 @@
                         }
                     }
                 }
-
-                bunny.width = 20;
-                bunny.height = 20;
-                guy1.width = 20;
-                guy1.height = 20;
-                app.stage.addChild(bunny);
-                app.stage.addChild(guy1);
-                // To make DISAPPEAR: bunny.visible = false;
             }
             // Stopped reading at positioning sprites.
 
@@ -127,6 +128,55 @@
             // TODO Set the sprites to the proper positions and size
             // TODO Make the bunny move randomly
             // TODO Add key listeners to move the guys
+            // keyCodes:
+            // a=65 s=83 d=68 w=87
+            // i=73 j=74 k=75 l=76
+            let action = "none";
+            var action2 = "none";
+            window.addEventListener('keydown', function(e) {
+                switch(e.keyCode) {
+                case 65:
+                    action = "left";
+                    break;
+                case 83:
+                    action = "down";
+                    break;
+                case 68:
+                    action = "right";
+                    break;
+                case 87:
+                    action = "up";
+                    break;
+                case 74:
+                    action2 = "left";
+                    break;
+                case 75:
+                    action2 = "down";
+                    break;
+                case 76:
+                    action2 = "right";
+                    break;
+                case 73:
+                    action2 = "up";
+                    break;
+                default:
+                    action = "none";
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/",
+                    data: {
+                        action: action,
+                        action2: action2
+                    },
+                    success: function() {
+                        console.log("Moved " + action);
+                    }
+                });
+                let loc = window.location.pathname;
+                let dir = loc.substring(0, loc.lastIndexOf('/'));
+                window.location.replace(dir);
+            });
         </script>
     </body>
 </html>
