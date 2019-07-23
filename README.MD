@@ -1,11 +1,10 @@
-### BRAIN DMG
+# BRAIN DMG
 
-![sample](/images/lily.png)
+![sample](/public/images/lily.png)
+![sample](/public/images/vanillaCanvas.png)
 
 ## Getting Started
 Run `npm run devstart`
 
 
-
-
-# By Ronny and Alan
+### By Ronny and Alan
