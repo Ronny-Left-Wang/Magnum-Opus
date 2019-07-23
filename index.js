@@ -20,12 +20,13 @@ let interval = setInterval(() => {
 }, 500);
 
 app.get('/', (req, res) => {
-    res.send(Game.displayWorld() + Html.moveButtonHtml + Ascii.transgender(Ascii.deer));
+    return res.send(Game.displayWorld() + Html.moveButtonHtml + Ascii.transgender(Ascii.deer));
 });
 
 app.get('/canvas', (req, res) => {
     // console.log(Game.getWorld());
-    res.render('canvas', {'trees': JSON.stringify(Game.trees), 
+    return res.render('canvas', {
+        'trees': JSON.stringify(Game.trees), 
         'bunny': JSON.stringify(Game.bunnyarr),
         'guy1arr': JSON.stringify(Game.guy1arr), 
         'guy2arr': JSON.stringify(Game.guy2arr), 
@@ -35,7 +36,8 @@ app.get('/canvas', (req, res) => {
 });
 
 app.get('/pixie', (req, res) => {
-    res.render('pixie', {'trees': JSON.stringify(Game.trees), 
+    return res.render('pixie', {
+        'trees': JSON.stringify(Game.trees), 
         'bunny': JSON.stringify(Game.bunnyarr),
         'guy1arr': JSON.stringify(Game.guy1arr), 
         'guy2arr': JSON.stringify(Game.guy2arr), 
@@ -46,7 +48,7 @@ app.get('/pixie', (req, res) => {
 
 app.get('/reset', (req, res) => {
     Game.resetWorld();
-    res.redirect('/');
+    return res.redirect('/');
 });
 
 app.post('/', (req, res) => {
@@ -63,4 +65,17 @@ app.post('/', (req, res) => {
     res.redirect('/');
 });
 
+app.post('/pixie', (req, res) => {
+    let action = req.body.action;
+    let action2 = req.body.action2;
+
+    if (action) {
+        Game.moveGuy(1, action);
+    }
+    if (action2) {
+        Game.moveGuy(2, action2);
+    }
+
+    return res.redirect('/pixie');
+});
 app.listen(port, () => console.log(`Listening on port ${port}`));

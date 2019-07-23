@@ -71,7 +71,9 @@ let moveButtonHtml = `
                     console.log("Moved " + action);
                 }
             });
-            window.location.replace("/");
+            let loc = window.location.pathname;
+            let dir = loc.substring(0, loc.lastIndexOf('/'));
+            window.location.replace(dir);
         });
     </script>
 `;
