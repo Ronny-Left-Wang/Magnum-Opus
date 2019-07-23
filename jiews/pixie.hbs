@@ -55,6 +55,9 @@
             let gameHeight = app.renderer.view.height;
             let gameWidth = app.renderer.view.width;
 
+            let guy1Arr = {{{guy1arr}}};
+            let bunnyArr = {{{bunnyarr}}};
+
             app.renderer.backgroundColor = 0xFFFFFF;
             app.renderer.view.style = "border:1px solid #000000;";
             // This adds the canvas Pixi automatically created to the HTML document
@@ -71,14 +74,20 @@
             function setup() {
                 // Code that runs after loader is finished loading image.
                 let bunny = new Sprite(resources["../public/images/bunny.png"].texture);
-                let golem = new Sprite(resources["../public/images/golem.png"].texture);
+                let guy1 = new Sprite(resources["../public/images/golem.png"].texture);
+                let bunnyPos = bunnyArr[bunnyArr.length - 1];
+                let guy1Pos = guy1Arr[guy1Arr.length - 1];
+                bunny.x = bunnyPos.x * 20;
+                bunny.y = bunnyPos.y * 20;
+                guy1.x = guy1Pos.x * 20;
+                guy1.y = guy1Pos.y * 20;
+
                 bunny.width = 20;
                 bunny.height = 20;
-                golem.width = 20;
-                golem.height = 20;
-                golem.x = 20;
+                guy1.width = 20;
+                guy1.height = 20;
                 app.stage.addChild(bunny);
-                app.stage.addChild(golem);
+                app.stage.addChild(guy1);
                 // To make DISAPPEAR: bunny.visible = false;
             }
             // Stopped at positioning sprites.
@@ -99,6 +108,7 @@
             }
 
             // TODO Set the sprites to the proper positions and size
+
             // TODO Make the bunny move randomly
             // TODO Add key listeners to move the guys
         </script>

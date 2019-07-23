@@ -35,7 +35,13 @@ app.get('/canvas', (req, res) => {
 });
 
 app.get('/pixie', (req, res) => {
-    res.render('pixie');
+    res.render('pixie', {'trees': JSON.stringify(Game.trees), 
+        'bunny': JSON.stringify(Game.bunnyarr),
+        'guy1arr': JSON.stringify(Game.guy1arr), 
+        'guy2arr': JSON.stringify(Game.guy2arr), 
+        'bunnyarr': JSON.stringify(Game.bunnyarr), 
+        'gameWorld': JSON.stringify(Game.getWorld())
+    });
 });
 
 app.get('/reset', (req, res) => {
