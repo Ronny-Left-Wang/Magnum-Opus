@@ -3,8 +3,30 @@
     <body>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.0/pixi.min.js"></script>
         <script>
-            let app = new PIXI.Application({width: 256, height: 256});
+            let app = new PIXI.Application({width: 400, height: 400});
             // TODO Load and draw sprites from root page (can be any size and position)
+            document.body.appendChild(app.view);
+
+            /* Converts ordinary image file to  WebGL texture. Pixi uses texture cache to 
+                store all the texture sprites. */
+            PIXI.utils.TextureCache["../public/images/bunny.png"];
+            // Using Pixi's sprite class to make new sprite using the texture.
+            // let texture = PIXI.utils.TextureCache["../public/images/bunny.png"];
+            // loader loads the image and converts it into a texture.
+            PIXI.loader
+                .add([
+                    "../public/images/bunny.png",
+                    "../public/images/tree.png",
+                    "../public/images/golem.png"
+                ])
+                .load(setup);
+
+            function setup() {
+                // Code that runs after loader is finished loading image.
+                let sprite = new PIXI.Sprite(PIXI.loader.resources["../public/images/bunny.png"].texture);
+                app.stage.addChild(sprite);
+            }
+
 
             // TODO Create the grid and tiles
 
@@ -14,7 +36,6 @@
 
             // TODO Add key listeners to move the guys
 
-            document.body.appendChild(app.view);
         </script>
     </body>
 </html>
