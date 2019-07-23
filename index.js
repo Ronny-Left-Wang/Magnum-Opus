@@ -34,6 +34,10 @@ app.get('/canvas', (req, res) => {
     });
 });
 
+app.get('/pixie', (req, res) => {
+    res.render('pixie');
+});
+
 app.get('/reset', (req, res) => {
     Game.resetWorld();
     res.redirect('/');
