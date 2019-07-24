@@ -34,6 +34,7 @@
             let state;
 
             let trees = {{{trees}}};
+            let gameWorld = {{{gameWorld}}};
             let tree;
 
 
@@ -46,6 +47,21 @@
 
             function setup() {
                 // Code that runs after loader is finished loading image.
+                let tile = new Graphics();
+                // Fills tiles with green and blue
+                for (let i = 0; i < gameWidth/tileSize; i++) {
+                    for (let j = 0; j < gameWidth/tileSize; j++) {
+                        if (gameWorld[i][j] == 'D') {
+                            tile.beginFill(0x136D15);
+                        } else if (gameWorld[i][j] == 'W') {
+                            tile.beginFill(0x0033cc);
+                        }
+                        tile.drawRect(j * tileSize, i * tileSize, tileSize, tileSize);
+                        tile.endFill();
+                    }
+                }
+
+                app.stage.addChild(tile);
                 // draw tiles
                 let x = tileSize;
                 let y = tileSize;
@@ -59,7 +75,7 @@
                     line.lineTo(gameWidth, y);
                     y += tileSize;
                     x += tileSize;
-                }
+                };
 
                 // draw heros
                 let hero = new Sprite(resources["../public/images/golem.png"].texture);
@@ -84,35 +100,44 @@
                 };
                 up.press = () => {
                     hero.y -= tileSize;
-                }
+                };
                 down.press = () => {
                     hero.y += tileSize;
-                }
+                };
                 right.press = () => {
                     hero.x += tileSize;
-                }
+                };
 
                 // wasd
                 let isCanDoingWalkingOnThis = (x, y) => {
+                    x = x/tileSize;
+                    y = y/tileSize;
                     // TODO Check if tile is water
 
-                    // Check if any tree is on x or y
-
-                }
+                    // Check if any tree is on x AND y
+                    // IF OPEN SPOT CAN WALK
+                    for (let i = 0; i < trees.length; i++) {
+                        let tree = trees[i];
+                        if (tree.x == x && tree.y == y) {
+                            return false;
+                        }
+                    }
+                    return true;
+                };
                 left2.press = () => {
-                    if (isCanDoingWalkingOnThis(hero.x - 1, hero.y))
+                    if (isCanDoingWalkingOnThis(hero.x - tileSize, hero.y))
                         hero.x -= tileSize;
                 };
                 up2.press = () => {
-                    if (isCanDoingWalkingOnThis(hero.x, hero.y - 1))
+                    if (isCanDoingWalkingOnThis(hero.x, hero.y - tileSize))
                         hero.y -= tileSize;
                 };
                 down2.press = () => {
-                    if (isCanDoingWalkingOnThis(hero.x, hero.y + 1))
+                    if (isCanDoingWalkingOnThis(hero.x, hero.y + tileSize))
                         hero.y += tileSize;
                 };
                 right2.press = () => {
-                    if (isCanDoingWalkingOnThis(hero.x + 1, hero.y))
+                    if (isCanDoingWalkingOnThis(hero.x + tileSize, hero.y))
                         hero.x += tileSize;
                 };
 
