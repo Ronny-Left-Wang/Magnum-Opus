@@ -36,20 +36,6 @@
             let trees = {{{trees}}};
             let tree;
 
-            // draw tiles
-            let x = tileSize;
-            let y = tileSize;
-            let line = new Graphics();
-            line.lineStyle(2, 0x09370A, 1);
-            while (x < gameHeight) {
-                line.moveTo(x, 0);
-                line.lineTo(x, gameHeight);
-                app.stage.addChild(line);
-                line.moveTo(0, y);
-                line.lineTo(gameWidth, y);
-                y += tileSize;
-                x += tileSize;
-            }
 
             loader
                 .add([
@@ -60,13 +46,29 @@
 
             function setup() {
                 // Code that runs after loader is finished loading image.
+                // draw tiles
+                let x = tileSize;
+                let y = tileSize;
+                let line = new Graphics();
+                line.lineStyle(2, 0x09370A, 1);
+                while (x < gameHeight) {
+                    line.moveTo(x, 0);
+                    line.lineTo(x, gameHeight);
+                    app.stage.addChild(line);
+                    line.moveTo(0, y);
+                    line.lineTo(gameWidth, y);
+                    y += tileSize;
+                    x += tileSize;
+                }
+
+                // draw heros
                 let hero = new Sprite(resources["../public/images/golem.png"].texture);
                 hero.width = tileSize;
                 hero.height = tileSize;
 
                 app.stage.addChild(hero);
 
-                // movement
+                // movements
                 let left = keyboard("ArrowLeft"),
                     up = keyboard("ArrowUp"),
                     right = keyboard("ArrowRight"),
@@ -78,8 +80,6 @@
 
                 // arrow keys
                 left.press = () => {
-                    for (let i = 0; i < trees.length; i++) {
-                        
                     hero.x -= tileSize;
                 };
                 up.press = () => {
@@ -93,17 +93,27 @@
                 }
 
                 // wasd
+                let isCanDoingWalkingOnThis = (x, y) => {
+                    // TODO Check if tile is water
+
+                    // Check if any tree is on x or y
+
+                }
                 left2.press = () => {
-                    hero.x -= tileSize;
+                    if (isCanDoingWalkingOnThis(hero.x - 1, hero.y))
+                        hero.x -= tileSize;
                 };
                 up2.press = () => {
-                    hero.y -= tileSize;
+                    if (isCanDoingWalkingOnThis(hero.x, hero.y - 1))
+                        hero.y -= tileSize;
                 };
                 down2.press = () => {
-                    hero.y += tileSize;
+                    if (isCanDoingWalkingOnThis(hero.x, hero.y + 1))
+                        hero.y += tileSize;
                 };
                 right2.press = () => {
-                    hero.x += tileSize;
+                    if (isCanDoingWalkingOnThis(hero.x + 1, hero.y))
+                        hero.x += tileSize;
                 };
 
                 // draw trees
