@@ -31,7 +31,12 @@
             let gameHeight = app.renderer.view.height;
             let gameWidth = app.renderer.view.width;
             let tileSize = 40;
+            let state;
 
+            let trees = {{{trees}}};
+            let tree;
+
+            // draw tiles
             let x = tileSize;
             let y = tileSize;
             let line = new Graphics();
@@ -53,7 +58,6 @@
                 ])
                 .load(setup);
 
-            let state;
             function setup() {
                 // Code that runs after loader is finished loading image.
                 let hero = new Sprite(resources["../public/images/golem.png"].texture);
@@ -62,6 +66,7 @@
 
                 app.stage.addChild(hero);
 
+                // movement
                 let left = keyboard("ArrowLeft"),
                     up = keyboard("ArrowUp"),
                     right = keyboard("ArrowRight"),
@@ -71,7 +76,10 @@
                     right2 = keyboard("d"),
                     down2 = keyboard("s");
 
+                // arrow keys
                 left.press = () => {
+                    for (let i = 0; i < trees.length; i++) {
+                        
                     hero.x -= tileSize;
                 };
                 up.press = () => {
@@ -84,6 +92,7 @@
                     hero.x += tileSize;
                 }
 
+                // wasd
                 left2.press = () => {
                     hero.x -= tileSize;
                 };
@@ -97,12 +106,12 @@
                     hero.x += tileSize;
                 };
 
-                let trees = {{{trees}}};
+                // draw trees
                 for (let i = 0; i < trees.length; i++) {
                     for (let j = 0; j < trees.length; j++) {
                         for (let treeIndex = 0; treeIndex < trees.length; treeIndex++) {
                             if (trees[treeIndex].x == j && trees[treeIndex].y == i) {
-                                let tree = new Sprite(resources["../public/images/tree.png"].texture);
+                                tree = new Sprite(resources["../public/images/tree.png"].texture);
                                 tree.x = j * tileSize;
                                 tree.y = i * tileSize;
                                 tree.width = tileSize;
@@ -113,6 +122,7 @@
                     }
                 }
                 state = play;
+                // idk
                 app.ticker.add(delta => gameLoop(delta));
             }
 
@@ -124,6 +134,7 @@
 
             }
 
+            // attempt to keep player in canvas window 
             function contain(sprite, container) {
                 let collision = undefined;
 
@@ -157,7 +168,6 @@
 
                 key.downHandler = event => {
                     if (event.key === key.value) {
-                        console.log(event.key);
                         if (key.isUp && key.press) key.press();
                         key.isDown = true;
                         key.isUp = false;
@@ -188,7 +198,7 @@
                     window.removeEventListener("keydown", downListener);
                     window.removeEventListener("keyup", upListener);
                 };
-                console.log(key);
+                
                 return key;
             }
 
