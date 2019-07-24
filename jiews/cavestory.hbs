@@ -48,7 +48,8 @@
 
             loader
                 .add([
-                    "../public/images/golem.png"
+                    "../public/images/golem.png",
+                    "../public/images/tree.png"
                 ])
                 .load(setup);
 
@@ -96,6 +97,21 @@
                     hero.x += tileSize;
                 };
 
+                let trees = {{{trees}}};
+                for (let i = 0; i < trees.length; i++) {
+                    for (let j = 0; j < trees.length; j++) {
+                        for (let treeIndex = 0; treeIndex < trees.length; treeIndex++) {
+                            if (trees[treeIndex].x == j && trees[treeIndex].y == i) {
+                                let tree = new Sprite(resources["../public/images/tree.png"].texture);
+                                tree.x = j * tileSize;
+                                tree.y = i * tileSize;
+                                tree.width = tileSize;
+                                tree.height = tileSize;
+                                app.stage.addChild(tree);
+                            }
+                        }
+                    }
+                }
                 state = play;
                 app.ticker.add(delta => gameLoop(delta));
             }
@@ -106,6 +122,29 @@
 
             function play(delta) {
 
+            }
+
+            function contain(sprite, container) {
+                let collision = undefined;
+
+                if (sprite.x < container.x) {
+                    sprite.x = container.x;
+                    collision = "left";
+                }
+                if (sprite.y < container.y) {
+                    sprite.y = container.y;
+                    collision = "top";
+                }
+                if (sprite.x + sprite.width  > container.width) {
+                    sprite.x = container.width - sprite.width;
+                    collision = "right";
+                }
+                if (sprite.y > container.height) {
+                    sprite.y = container.height - sprite.height;
+                    collision = "bottom";
+                }
+
+                return collision;
             }
 
             function keyboard(value) {
@@ -152,6 +191,7 @@
                 console.log(key);
                 return key;
             }
+
         </script>
     </body>
 </html>

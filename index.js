@@ -48,6 +48,7 @@ app.get('/pixie', (req, res) => {
 
 app.get('/cavestory', (req, res) => {
     return res.render('cavestory', {
+        'trees': JSON.stringify(Game.trees), 
         'gameWorld': JSON.stringify(Game.getWorld())
     });
 });
