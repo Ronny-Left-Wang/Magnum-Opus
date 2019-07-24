@@ -6,7 +6,7 @@
             /*
                 Make pixi game
                 1. Tilebased
-                2. Move hero with WASD or arrow keys
+                2. Move hero with WASD or arrow keys Done
                 3. Prevent hero from moving into terrain it's not allowed on
                 4. Prevent hero from moving onto other characters
             */
@@ -17,8 +17,8 @@
                 Graphics = PIXI.Graphics;
 
             let app = new Application({
-                width: 400,
-                height: 400,
+                width: 600,
+                height: 600,
                 antialias: true,
                 transparent: false,
                 resolution: 1
@@ -30,9 +30,10 @@
 
             let gameHeight = app.renderer.view.height;
             let gameWidth = app.renderer.view.width;
+            let tileSize = 40;
 
-            let x = 20;
-            let y = 20;
+            let x = tileSize;
+            let y = tileSize;
             let line = new Graphics();
             line.lineStyle(2, 0x09370A, 1);
             while (x < gameHeight) {
@@ -41,8 +42,8 @@
                 app.stage.addChild(line);
                 line.moveTo(0, y);
                 line.lineTo(gameWidth, y);
-                y += 20;
-                x += 20;
+                y += tileSize;
+                x += tileSize;
             }
 
             loader
@@ -55,31 +56,45 @@
             function setup() {
                 // Code that runs after loader is finished loading image.
                 let hero = new Sprite(resources["../public/images/golem.png"].texture);
-                hero.width = 20;
-                hero.height = 20;
+                hero.width = tileSize;
+                hero.height = tileSize;
 
                 app.stage.addChild(hero);
 
                 let left = keyboard("ArrowLeft"),
                     up = keyboard("ArrowUp"),
                     right = keyboard("ArrowRight"),
-                    down = keyboard("ArrowDown");
+                    down = keyboard("ArrowDown"),
+                    left2 = keyboard("a"),
+                    up2 = keyboard("w"),
+                    right2 = keyboard("d"),
+                    down2 = keyboard("s");
 
                 left.press = () => {
-                    hero.x -= 20;
+                    hero.x -= tileSize;
                 };
-
                 up.press = () => {
-                    hero.y -= 20;
+                    hero.y -= tileSize;
                 }
-
                 down.press = () => {
-                    hero.y += 20;
+                    hero.y += tileSize;
+                }
+                right.press = () => {
+                    hero.x += tileSize;
                 }
 
-                right.press = () => {
-                    hero.x += 20;
-                }
+                left2.press = () => {
+                    hero.x -= tileSize;
+                };
+                up2.press = () => {
+                    hero.y -= tileSize;
+                };
+                down2.press = () => {
+                    hero.y += tileSize;
+                };
+                right2.press = () => {
+                    hero.x += tileSize;
+                };
 
                 state = play;
                 app.ticker.add(delta => gameLoop(delta));
@@ -89,11 +104,9 @@
                 state(delta);
             }
 
-            /*
             function play(delta) {
 
             }
-            */
 
             function keyboard(value) {
                 let key = {};
@@ -105,6 +118,7 @@
 
                 key.downHandler = event => {
                     if (event.key === key.value) {
+                        console.log(event.key);
                         if (key.isUp && key.press) key.press();
                         key.isDown = true;
                         key.isUp = false;
@@ -135,6 +149,7 @@
                     window.removeEventListener("keydown", downListener);
                     window.removeEventListener("keyup", upListener);
                 };
+                console.log(key);
                 return key;
             }
         </script>
