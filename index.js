@@ -46,6 +46,12 @@ app.get('/pixie', (req, res) => {
     });
 });
 
+app.get('/cavestory', (req, res) => {
+    return res.render('cavestory', {
+        'gameWorld': JSON.stringify(Game.getWorld())
+    });
+});
+
 app.get('/reset', (req, res) => {
     Game.resetWorld();
     return res.redirect('/');

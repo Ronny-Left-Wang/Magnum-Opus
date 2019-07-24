@@ -10,6 +10,133 @@
                 3. Prevent hero from moving into terrain it's not allowed on
                 4. Prevent hero from moving onto other characters
             */
+            let Application = PIXI.Application,
+                loader = PIXI.loader,
+                resources = PIXI.loader.resources,
+                Sprite = PIXI.Sprite,
+                Graphics = PIXI.Graphics;
+
+            let app = new Application({
+                width: 400,
+                height: 400,
+                antialias: true,
+                transparent: false,
+                resolution: 1
+            });
+            app.renderer.backgroundColor = 0xFFFFFF;
+            app.renderer.view.style = "border:1px solid #000000;";
+
+            document.body.appendChild(app.view);
+
+            let gameHeight = app.renderer.view.height;
+            let gameWidth = app.renderer.view.width;
+
+            let x = 20;
+            let y = 20;
+            let line = new Graphics();
+            line.lineStyle(2, 0x09370A, 1);
+            while (x < gameHeight) {
+                line.moveTo(x, 0);
+                line.lineTo(x, gameHeight);
+                app.stage.addChild(line);
+                line.moveTo(0, y);
+                line.lineTo(gameWidth, y);
+                y += 20;
+                x += 20;
+            }
+
+            loader
+                .add([
+                    "../public/images/golem.png"
+                ])
+                .load(setup);
+
+            let state;
+            function setup() {
+                // Code that runs after loader is finished loading image.
+                let hero = new Sprite(resources["../public/images/golem.png"].texture);
+                hero.width = 20;
+                hero.height = 20;
+
+                app.stage.addChild(hero);
+
+                let left = keyboard("ArrowLeft"),
+                    up = keyboard("ArrowUp"),
+                    right = keyboard("ArrowRight"),
+                    down = keyboard("ArrowDown");
+
+                left.press = () => {
+                    hero.x -= 20;
+                };
+
+                up.press = () => {
+                    hero.y -= 20;
+                }
+
+                down.press = () => {
+                    hero.y += 20;
+                }
+
+                right.press = () => {
+                    hero.x += 20;
+                }
+
+                state = play;
+                app.ticker.add(delta => gameLoop(delta));
+            }
+
+            function gameLoop(delta) {
+                state(delta);
+            }
+
+            /*
+            function play(delta) {
+
+            }
+            */
+
+            function keyboard(value) {
+                let key = {};
+                key.value = value;
+                key.isDown = false;
+                key.isUp = true;
+                key.press = undefined;
+                key.release = undefined;
+
+                key.downHandler = event => {
+                    if (event.key === key.value) {
+                        if (key.isUp && key.press) key.press();
+                        key.isDown = true;
+                        key.isUp = false;
+                        event.preventDefault();
+                    }
+                };
+
+                key.upHandler = event => {
+                    if (event.key === key.value) {
+                        if (key.isDown && key.release) key.release();
+                        key.isDown = false;
+                        key.isUp = true;
+                        event.preventDefault();
+                    }
+                };
+
+                const downListener = key.downHandler.bind(key);
+                const upListener = key.upHandler.bind(key);
+
+                window.addEventListener(
+                    "keydown", downListener, false
+                    );
+                window.addEventListener(
+                    "keyup", upListener, false
+                    );
+
+                key.unsubscribe = () => {
+                    window.removeEventListener("keydown", downListener);
+                    window.removeEventListener("keyup", upListener);
+                };
+                return key;
+            }
         </script>
     </body>
 </html>
