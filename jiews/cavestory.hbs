@@ -60,7 +60,6 @@
                     }
                 }
                 app.stage.addChild(tile);
-
                 // draw tiles
 
                 // draw heros
@@ -78,11 +77,7 @@
                     right2 = keyboard("d"),
                     down2 = keyboard("s");
 
-                // arrow keys
                 let isCanDoingWalkingOnThis = (x, y) => {
-                    x = x/tileSize;
-                    y = y/tileSize;
-                    console.log(x + " " + y);
                     if (x < 0 || y < 0 || x >= gameWorld[0].length || y >= gameWorld.length || gameWorld[y][x] == 'W') {
                         return false;
                     }
@@ -96,34 +91,29 @@
                     return true;
                 };
 
-                // wasd
                 let moveHero = () => {
                     hero.x = hero.xPos * tileSize;
                     hero.y = hero.yPos * tileSize;
                 }
 
                 left2.press = () => {
-                    if (isCanDoingWalkingOnThis(hero.x - tileSize, hero.y)) {
-                        hero.xPos -= 1;
-                    }
+                    if (isCanDoingWalkingOnThis(hero.xPos - 1, hero.yPos)) 
+                        hero.xPos -= 1
                     moveHero();
                 };
                 up2.press = () => {
-                    if (isCanDoingWalkingOnThis(hero.x, hero.y - tileSize)) {
+                    if (isCanDoingWalkingOnThis(hero.xPos, hero.yPos - 1)) 
                         hero.yPos -= 1;
-                    }
                     moveHero();
                 };
                 down2.press = () => {
-                    if (isCanDoingWalkingOnThis(hero.x, hero.y + tileSize)) {
+                    if (isCanDoingWalkingOnThis(hero.xPos, hero.yPos  + 1)) 
                         hero.yPos += 1;
-                    }
                     moveHero();
                 };
                 right2.press = () => {
-                    if (isCanDoingWalkingOnThis(hero.x + tileSize, hero.y)) {
+                    if (isCanDoingWalkingOnThis(hero.xPos + 1, hero.yPos)) 
                         hero.xPos += 1;
-                    }
                     moveHero();
                 };
 
