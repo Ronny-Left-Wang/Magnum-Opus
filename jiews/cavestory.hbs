@@ -17,8 +17,8 @@
                 Graphics = PIXI.Graphics;
 
             let app = new Application({
-                width: 600,
-                height: 600,
+                width: 400,
+                height: 400,
                 antialias: true,
                 transparent: false,
                 resolution: 1
@@ -30,13 +30,12 @@
 
             let gameHeight = app.renderer.view.height;
             let gameWidth = app.renderer.view.width;
-            let tileSize = 40;
+            let tileSize = 20;
             let state;
 
             let trees = {{{trees}}};
             let gameWorld = {{{gameWorld}}};
             let tree;
-
 
             loader
                 .add([
@@ -60,8 +59,8 @@
                         tile.endFill();
                     }
                 }
-
                 app.stage.addChild(tile);
+
                 // draw tiles
                 let x = tileSize;
                 let y = tileSize;
@@ -108,14 +107,14 @@
                     hero.x += tileSize;
                 };
 
-                // wasd
                 let isCanDoingWalkingOnThis = (x, y) => {
                     x = x/tileSize;
                     y = y/tileSize;
-                    // TODO Check if tile is water
+                    console.log(x + " " + y);
+                    if (x < 0 || y < 0 || x >= tileSize || y >= tileSize || gameWorld[y][x] == 'W') {
+                        return false;
+                    }
 
-                    // Check if any tree is on x AND y
-                    // IF OPEN SPOT CAN WALK
                     for (let i = 0; i < trees.length; i++) {
                         let tree = trees[i];
                         if (tree.x == x && tree.y == y) {
@@ -124,6 +123,8 @@
                     }
                     return true;
                 };
+
+                // wasd
                 left2.press = () => {
                     if (isCanDoingWalkingOnThis(hero.x - tileSize, hero.y))
                         hero.x -= tileSize;
