@@ -62,24 +62,13 @@
                 app.stage.addChild(tile);
 
                 // draw tiles
-                let x = tileSize;
-                let y = tileSize;
-                let line = new Graphics();
-                line.lineStyle(2, 0x09370A, 1);
-                while (x < gameHeight) {
-                    line.moveTo(x, 0);
-                    line.lineTo(x, gameHeight);
-                    app.stage.addChild(line);
-                    line.moveTo(0, y);
-                    line.lineTo(gameWidth, y);
-                    y += tileSize;
-                    x += tileSize;
-                };
 
                 // draw heros
                 let hero = new Sprite(resources["../public/images/golem.png"].texture);
                 hero.width = tileSize;
                 hero.height = tileSize;
+                hero.xPos = 0;
+                hero.yPos = 0;
 
                 app.stage.addChild(hero);
 
@@ -125,21 +114,30 @@
                 };
 
                 // wasd
+                let moveHero = () => {
+                    hero.x = hero.xPos * tileSize;
+                    hero.y = hero.yPos * tileSize;
+                }
+
                 left2.press = () => {
                     if (isCanDoingWalkingOnThis(hero.x - tileSize, hero.y))
                         hero.x -= tileSize;
+                    moveHero();
                 };
                 up2.press = () => {
                     if (isCanDoingWalkingOnThis(hero.x, hero.y - tileSize))
                         hero.y -= tileSize;
+                    moveHero();
                 };
                 down2.press = () => {
                     if (isCanDoingWalkingOnThis(hero.x, hero.y + tileSize))
                         hero.y += tileSize;
+                    moveHero();
                 };
                 right2.press = () => {
                     if (isCanDoingWalkingOnThis(hero.x + tileSize, hero.y))
                         hero.x += tileSize;
+                    moveHero();
                 };
 
                 // draw trees
