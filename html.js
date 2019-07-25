@@ -31,6 +31,8 @@ let moveButtonHtml = `
         // i=73 j=74 k=75 l=76
         let action = "none";
         var action2 = "none";
+        let loc = window.location.pathname;
+        let dir = loc.substring(0, loc.lastIndexOf('/'));
         window.addEventListener('keydown', function(e) {
             switch(e.keyCode) {
             case 65:
@@ -71,8 +73,6 @@ let moveButtonHtml = `
                     console.log("Moved " + action);
                 }
             });
-            let loc = window.location.pathname;
-            let dir = loc.substring(0, loc.lastIndexOf('/'));
             window.location.replace(dir);
         });
     </script>

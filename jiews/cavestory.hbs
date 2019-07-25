@@ -30,7 +30,7 @@
 
             let gameHeight = app.renderer.view.height;
             let gameWidth = app.renderer.view.width;
-            let tileSize = 20;
+            let tileSize = 40;
             let state;
 
             let trees = {{{trees}}};
@@ -118,8 +118,8 @@
                 };
 
                 // draw trees
-                for (let i = 0; i < trees.length; i++) {
-                    for (let j = 0; j < trees.length; j++) {
+                for (let i = 0; i < tileSize; i++) {
+                    for (let j = 0; j < tileSize; j++) {
                         for (let treeIndex = 0; treeIndex < trees.length; treeIndex++) {
                             if (trees[treeIndex].x == j && trees[treeIndex].y == i) {
                                 tree = new Sprite(resources["../public/images/tree.png"].texture);
@@ -142,7 +142,6 @@
             }
 
             function play(delta) {
-
             }
 
             function keyboard(value) {
@@ -185,7 +184,7 @@
                     window.removeEventListener("keydown", downListener);
                     window.removeEventListener("keyup", upListener);
                 };
-                
+
                 return key;
             }
 

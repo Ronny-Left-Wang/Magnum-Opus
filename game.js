@@ -1,4 +1,4 @@
-const size = 20;
+const size = 10;
 let world;
 
 let imgGuy1 = '<img rel="prefetch" width="20" alt="golem" title="golem" src="/public/images/golem.png"></img>';

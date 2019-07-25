@@ -9,6 +9,10 @@ let deer = `
          "     "
 `;
 
+// What did alan want me to do here?
+// he said he wanted me to use critical thinking to debug
+// remember to use console log cause it'll help figure out
+
 function transgender(s) {
     let s2 = [];
     s2[0] = "<pre>"
