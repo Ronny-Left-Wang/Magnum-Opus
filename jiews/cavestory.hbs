@@ -111,7 +111,7 @@
                     x = x/tileSize;
                     y = y/tileSize;
                     console.log(x + " " + y);
-                    if (x < 0 || y < 0 || x >= tileSize || y >= tileSize || gameWorld[y][x] == 'W') {
+                    if (x < 0 || y < 0 || x >= gameWorld[0].length || y >= gameWorld.length || gameWorld[y][x] == 'W') {
                         return false;
                     }
 
@@ -168,30 +168,6 @@
 
             function play(delta) {
 
-            }
-
-            // attempt to keep player in canvas window 
-            function contain(sprite, container) {
-                let collision = undefined;
-
-                if (sprite.x < container.x) {
-                    sprite.x = container.x;
-                    collision = "left";
-                }
-                if (sprite.y < container.y) {
-                    sprite.y = container.y;
-                    collision = "top";
-                }
-                if (sprite.x + sprite.width  > container.width) {
-                    sprite.x = container.width - sprite.width;
-                    collision = "right";
-                }
-                if (sprite.y > container.height) {
-                    sprite.y = container.height - sprite.height;
-                    collision = "bottom";
-                }
-
-                return collision;
             }
 
             function keyboard(value) {
