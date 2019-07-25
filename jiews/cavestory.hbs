@@ -73,29 +73,12 @@
                 app.stage.addChild(hero);
 
                 // movements
-                let left = keyboard("ArrowLeft"),
-                    up = keyboard("ArrowUp"),
-                    right = keyboard("ArrowRight"),
-                    down = keyboard("ArrowDown"),
-                    left2 = keyboard("a"),
+                let left2 = keyboard("a"),
                     up2 = keyboard("w"),
                     right2 = keyboard("d"),
                     down2 = keyboard("s");
 
                 // arrow keys
-                left.press = () => {
-                    hero.x -= tileSize;
-                };
-                up.press = () => {
-                    hero.y -= tileSize;
-                };
-                down.press = () => {
-                    hero.y += tileSize;
-                };
-                right.press = () => {
-                    hero.x += tileSize;
-                };
-
                 let isCanDoingWalkingOnThis = (x, y) => {
                     x = x/tileSize;
                     y = y/tileSize;
@@ -120,23 +103,31 @@
                 }
 
                 left2.press = () => {
-                    if (isCanDoingWalkingOnThis(hero.x - tileSize, hero.y))
+                    if (isCanDoingWalkingOnThis(hero.x - tileSize, hero.y)) {
                         hero.x -= tileSize;
+                        hero.xPos -= 1;
+                    }
                     moveHero();
                 };
                 up2.press = () => {
-                    if (isCanDoingWalkingOnThis(hero.x, hero.y - tileSize))
+                    if (isCanDoingWalkingOnThis(hero.x, hero.y - tileSize)) {
                         hero.y -= tileSize;
+                        hero.yPos -= 1;
+                    }
                     moveHero();
                 };
                 down2.press = () => {
-                    if (isCanDoingWalkingOnThis(hero.x, hero.y + tileSize))
+                    if (isCanDoingWalkingOnThis(hero.x, hero.y + tileSize)) {
                         hero.y += tileSize;
+                        hero.yPos += 1;
+                    }
                     moveHero();
                 };
                 right2.press = () => {
-                    if (isCanDoingWalkingOnThis(hero.x + tileSize, hero.y))
+                    if (isCanDoingWalkingOnThis(hero.x + tileSize, hero.y)) {
                         hero.x += tileSize;
+                        hero.xPos += 1;
+                    }
                     moveHero();
                 };
 

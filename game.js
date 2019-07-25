@@ -78,7 +78,7 @@ let createWorld = () => {
         for (let j = 0; j < size; ++j) {
             world[i][j] = 'D';
             let chance = Math.random();
-            if (chance > 0.75) world[i][j] = 'W';
+            if (chance > 0.80) world[i][j] = 'W';
             if (world [i][j] != 'W') {
                 if (Math.random() > 0.92) {
                     trees.push({
