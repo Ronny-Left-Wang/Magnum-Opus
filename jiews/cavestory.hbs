@@ -104,28 +104,24 @@
 
                 left2.press = () => {
                     if (isCanDoingWalkingOnThis(hero.x - tileSize, hero.y)) {
-                        hero.x -= tileSize;
                         hero.xPos -= 1;
                     }
                     moveHero();
                 };
                 up2.press = () => {
                     if (isCanDoingWalkingOnThis(hero.x, hero.y - tileSize)) {
-                        hero.y -= tileSize;
                         hero.yPos -= 1;
                     }
                     moveHero();
                 };
                 down2.press = () => {
                     if (isCanDoingWalkingOnThis(hero.x, hero.y + tileSize)) {
-                        hero.y += tileSize;
                         hero.yPos += 1;
                     }
                     moveHero();
                 };
                 right2.press = () => {
                     if (isCanDoingWalkingOnThis(hero.x + tileSize, hero.y)) {
-                        hero.x += tileSize;
                         hero.xPos += 1;
                     }
                     moveHero();
