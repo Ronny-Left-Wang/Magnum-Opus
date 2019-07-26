@@ -34,6 +34,32 @@
             // 5x5 grid draw squares
             for (let i = 0; i < 
             */
+
+            let world = [
+                [1, 1, 0, 0, 0],
+                [1, 1, 0, 0, 0],
+                [1, 1, 0, 0, 0],
+                [1, 1, 0, 0, 0],
+                [1, 1, 0, 0, 0]
+            ];
+
+            let step = () => {
+                let string = "/---------------\\\n";
+                for (let i = 0; i < world.length; i++) {
+                    string += "|";
+                    for (let j = 0; j < world[0].length; j++) {
+                        string += " " + world[i][j] + " ";
+                    }
+                    string += "|" + "\n";
+                }
+                string += "\\---------------/\n";
+                console.log(string);
+            }
+
+            setInterval(() => {
+                step();
+            }, 1000);
+
         </script>
     </body>
 </html>
