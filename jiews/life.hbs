@@ -32,18 +32,24 @@
             app.renderer.view.style = "border:1px solid #000000;";
 
             // 5x5 grid draw squares
-            for (let i = 0; i < 
+            */
+
+            /*
+             1. Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+             2. Any live cell with two or three live neighbours lives on to the next generation.
+             3. Any live cell with more than three live neighbours dies, as if by overpopulation.
+             4. Any dead cell with three live neighbours becomes a live cell, as if by reproduction.
             */
 
             let world = [
-                [1, 1, 0, 0, 0],
-                [1, 1, 0, 0, 0],
-                [1, 1, 0, 0, 0],
-                [1, 1, 0, 0, 0],
-                [1, 1, 0, 0, 0]
+                [1, 1, 0, 1, 0],
+                [0, 1, 1, 0, 0],
+                [1, 0, 0, 1, 0],
+                [0, 1, 1, 0, 0],
+                [0, 1, 0, 1, 0]
             ];
 
-            let step = () => {
+            let drawWorld = () => {
                 let string = "/---------------\\\n";
                 for (let i = 0; i < world.length; i++) {
                     string += "|";
@@ -54,6 +60,15 @@
                 }
                 string += "\\---------------/\n";
                 console.log(string);
+            }
+
+            // How can you tell what a neighbor is?
+            for (let i = 0; i < world[0].length; i++) {
+                console.log(world[0][i]);
+            }
+
+            let step = () => {
+                drawWorld();
             }
 
             setInterval(() => {
