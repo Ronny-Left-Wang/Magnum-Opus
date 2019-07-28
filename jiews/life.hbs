@@ -5,6 +5,7 @@
         <link rel="icon" href="https://pbs.twimg.com/profile_images/1103056143322996736/yFwE2PJv_400x400.png">
     </head>
     <body>
+        <canvas id="game" width="400" height="400" style="border:1px solid #000000;"></canvas>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.0/pixi.min.js"></script>
         <script>
@@ -41,21 +42,16 @@
              4. Any dead cell with three live neighbours becomes a live cell, as if by reproduction.
             */
 
+            let canvas = document.getElementById("game");
+            let ctx = canvas.getContext("2d");
+
+
             let world = [
                 [1, 1, 0, 1, 0],
                 [0, 1, 1, 1, 1],
                 [1, 0, 0, 1, 0],
                 [0, 1, 1, 0, 0],
                 [0, 1, 0, 1, 0]
-            ];
-
-            //test world
-            world = [
-                [1, 2, 3, 4, 5],
-                [6, 7, 8, 9, 10],
-                [11, 12, 13, 14, 15],
-                [16, 17, 18, 19, 20],
-                [21, 22, 23, 24, 25]
             ];
 
             let size = world.length;
@@ -70,10 +66,27 @@
                     string += "|" + "\n";
                 }
                 string += "\\---------------/\n";
-                console.log(string);
+                return string;
             };
 
-            let findNeighbors = (i, j) => {
+            let drawGrid = () => {
+                let x = 0;
+                let y = 0;
+                while (y < 400) {
+                    ctx.rect (x, y, 80, 80);
+                    ctx.stroke();
+                    ctx.rect(0, x, 80, 80);
+                    ctx.stroke();
+                    if (x == 400) {
+                        y += 80;
+                        x = 0;
+                    }
+                    x += 80;
+                }
+            };
+            drawGrid();
+
+            let getNeighbors = (i, j) => {
                 let neighbors = [];
                 // check corner cases
                 // top left
@@ -147,12 +160,55 @@
                 return neighbors;
             };
 
-            console.log(findneighbors(1, 2));
-            console.log(findneighbors(3, 3));
+            let makeAlive = (i, j) => {
+                world[i][j] = 1;
+                return 1;
+            };
+
+            let makeDead = (i, j) => {
+                world[i][j] = 0;
+                return 0;
+            };
+
+            let deadOrAlive = (i, j) => {
+                let cell = world[i][j];
+                if (cell == 0) {
+                    return "Dead";
+                } else {
+                    return "Alive";
+                }
+            };
+
+            let survival = () => {
+                for (let i = 0; i < size; i++) {
+                    for (let j = 0; j < size; j++) {
+                        let cell = world[i][j];
+                        let neighbors = getNeighbors(i, j);
+                        let liveNeighbors = 0;
+                        for (let k = 0; k < neighbors.length; k++) {
+                            if (neighbors[k] == 1) {
+                                liveNeighbors++;
+                            }
+                        }
+                        if (cell == 1 && liveNeighbors < 2) {
+                            cell = makeDead(cell);
+                        } else if (cell == 1 && liveNeighbors >= 2 && liveNeighbors <= 3) {
+                            cell = makeAlive(cell);
+                        } else if (cell == 1 && liveNeighbors > 3) {
+                            cell = makeDead(cell);
+                        }
+                        if (cell == 0 && liveNeighbors == 3) {
+                            cell = makeAlive(cell);
+                        }
+                        world[i][j] = cell;
+                    }
+                }
+            };
 
             let step = () => {
-                drawWorld();
-            }
+                console.log(drawWorld());
+                survival();
+            };
 
             setInterval(() => {
                 step();
