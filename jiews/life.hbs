@@ -5,7 +5,7 @@
         <link rel="icon" href="https://pbs.twimg.com/profile_images/1103056143322996736/yFwE2PJv_400x400.png">
     </head>
     <body>
-        <canvas id="game" width="5000" height="5000" style="border:1px solid #000000;"></canvas>
+        <canvas id="game" width="800" height="800" style="border:1px solid #000000;"></canvas>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.0/pixi.min.js"></script>
         <script>
@@ -44,6 +44,11 @@
 
             let canvas = document.getElementById("game");
             let ctx = canvas.getContext("2d");
+            let width = canvas.width;
+            let height = canvas.height;
+            let cellSize = 100;
+
+            ctx.fillStyle = "#808080";
 
             let world = [
                 [1, 1, 0, 1, 0],
@@ -68,17 +73,21 @@
                 return string;
             };
 
-            let cellSize = 100;
             let drawGrid = () => {
                 for (let i = 0; i < size * cellSize; i+=cellSize) {
                     for (let j = 0; j < size * cellSize; j+=cellSize) {
                         ctx.beginPath();
-                        ctx.rect(i, j, cellSize, cellSize);
+                        ctx.rect(j, i, cellSize, cellSize);
                         ctx.stroke();
+                        // if world at ij == 1, fill it.
+                        // how can i do that, need separate variables.
+                        // need 2 mmore loops? but then O OF N will be LARGE
+                        if (world[i/cellSize][j/cellSize] == 1) {
+                            ctx.fillRect(j, i, cellSize, cellSize);
+                        }
                     }
                 }
             };
-            drawGrid();
 
             let getNeighbors = (i, j) => {
                 let neighbors = [];
@@ -200,8 +209,10 @@
             };
 
             let step = () => {
-                console.log(drawWorld());
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 survival();
+                drawGrid();
+                console.log(drawWorld());
             };
 
             setInterval(() => {
