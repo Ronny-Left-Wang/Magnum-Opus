@@ -41,14 +41,13 @@
 
             let size = world.length;
 
-            let world2 = [];
-            for (let i = 0; i < size; i++) {
-                world2[i] = [];
-            };
 
-
-            let drawWorld = () => {
-                let string = "/---------------\\\n";
+            // Print world to console
+            let drawWorldToConsole = () => {
+                let amountOfHyphens = size * 3;
+                let hyphens = "";
+                for (let i = 0; i < amountOfHyphens; ++i) hyphens += '-';
+                let string = `/${hyphens}\\\n`;
                 for (let i = 0; i < world.length; i++) {
                     string += "|";
                     for (let j = 0; j < world[0].length; j++) {
@@ -56,94 +55,50 @@
                     }
                     string += "|" + "\n";
                 }
-                string += "\\---------------/\n";
-                return string;
+                string += `\\${hyphens}/\n`;
+                console.log(string);
             };
 
-            let drawGrid = () => {
-                for (let i = 0; i < size * cellSize; i+=cellSize) {
-                    for (let j = 0; j < size * cellSize; j+=cellSize) {
-                        ctx.beginPath();
-                        ctx.rect(j, i, cellSize, cellSize);
-                        ctx.stroke();
-                        if (world[i/cellSize][j/cellSize] == 1) {
-                            ctx.fillRect(j, i, cellSize, cellSize);
+            // Draw world to canvas
+            let drawWorldToCanvas = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = 0; i < size; i++) {
+                    for (let j = 0; j < size; j++) {
+                        // Color in cell if has living cell
+                        if (world[i][j] == 1) {
+                            ctx.fillRect(j * cellSize, i * cellSize, cellSize, cellSize);
                         }
+                        // Draw cell
+                        ctx.beginPath();
+                        ctx.rect(j * cellSize, i * cellSize, cellSize, cellSize);
+                        ctx.stroke();
                     }
                 }
             };
 
+            let drawWorld = () => {
+                drawWorldToConsole();
+                drawWorldToCanvas();
+            }
+
             let getNeighbors = (i, j) => {
                 let neighbors = [];
-                // check corner cases
-                // top left
-                if (i == 0 && j == 0) {
-                    neighbors.push(world[i][j + 1]);
-                    neighbors.push(world[i + 1][j]);
-                    neighbors.push(world[i + 1][j + 1]);
-                // top right
-                } else if (i == 0 && j == size - 1) {
-                    neighbors.push(world[i][j - 1]);
-                    neighbors.push(world[i + 1][j]);
-                    neighbors.push(world[i + 1][j - 1]);
-                // bottom left
-                } else if (i == size - 1 && j == 0) {
-                    neighbors.push(world[i - 1][j]);
-                    neighbors.push(world[i - 1][j + 1]);
-                    neighbors.push(world[i][j + 1]);
-                // bottom right
-                } else if (i == size - 1 && j == size - 1) {
-                    neighbors.push(world[i][j - 1]);
-                    neighbors.push(world[i - 1][j]);
+                if (i - 1 >= 0 && j - 1 >= 0)
                     neighbors.push(world[i - 1][j - 1]);
-                // outter top side
-                } else if (i == 0 && j > 0) {
-                    neighbors.push(world[i][j - 1]);
-                    neighbors.push(world[i][j + 1]);
-                    neighbors.push(world[i + 1][j - 1]);
-                    neighbors.push(world[i + 1][j]);
-                    neighbors.push(world[i + 1][j + 1]);
-                // left side edge
-                } else if (i > 0 && j == 0) {
+                if (i - 1 >= 0 && j >= 0 && j < size)
                     neighbors.push(world[i - 1][j]);
+                if (i - 1 >= 0 &&j + 1 >= 0 && j + 1 < size)
                     neighbors.push(world[i - 1][j + 1]);
-                    neighbors.push(world[i][j + 1]);
-                    neighbors.push(world[i + 1][j]);
-                    neighbors.push(world[i + 1][j + 1]);
-                // top side edge
-                } else if (i == 0 && j > 0) {
+                if (i >= 0 && i < size && j - 1 >= 0)
                     neighbors.push(world[i][j - 1]);
+                if (i >= 0 && i < size && j + 1 >= 0 && j + 1 < size)
                     neighbors.push(world[i][j + 1]);
+                if (i + 1 >= 0 && i + 1 < size && j - 1 >= 0)
                     neighbors.push(world[i + 1][j - 1]);
+                if (i + 1 >= 0 && i + 1 < size && j >= 0 && j < size)
                     neighbors.push(world[i + 1][j]);
+                if (i + 1 >= 0 && i + 1 < size && j + 1 >= 0 && j + 1 < size)
                     neighbors.push(world[i + 1][j + 1]);
-                // right side edge
-                } else if (i > 0 && j == size - 1) {
-                    neighbors.push(world[i - 1][j - 1]);
-                    neighbors.push(world[i - 1][j]);
-                    neighbors.push(world[i][j - 1]);
-                    neighbors.push(world[i + 1][j - 1]);
-                    neighbors.push(world[i + 1][j]);
-                // bottom side edge
-                } else if (i == size - 1 && j > 0) {
-                    neighbors.push(world[i - 1][j - 1]);
-                    neighbors.push(world[i - 1][j]);
-                    neighbors.push(world[i - 1][j + 1]);
-                    neighbors.push(world[i][j - 1]);
-                    neighbors.push(world[i][j + 1]);
-                // everything except corners and sides
-                } else {
-                    neighbors.push(world[i - 1][j - 1]);
-                    neighbors.push(world[i - 1][j]);
-                    neighbors.push(world[i - 1][j + 1]);
-
-                    neighbors.push(world[i][j - 1]);
-                    neighbors.push(world[i][j + 1]);
-
-                    neighbors.push(world[i + 1][j - 1]);
-                    neighbors.push(world[i + 1][j]);
-                    neighbors.push(world[i + 1][j + 1]);
-                }
                 return neighbors;
             };
 
@@ -158,6 +113,11 @@
             };
 
             let survival = (currWorld) => {
+                let world2 = [];
+                for (let i = 0; i < size; i++) {
+                    world2[i] = [];
+                };
+
                 for (let i = 0; i < size; i++) {
                     for (let j = 0; j < size; j++) {
                         let cell = currWorld[i][j];
@@ -180,20 +140,16 @@
                         world2[i][j] = cell;
                     }
                 }
-            console.log(world2);
+                world = world2;
             };
 
-            drawGrid();
-            console.log(drawWorld());
+            // main
             let step = () => {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
                 survival(world);
-                let temp = world;
-                world = world2;
-                world2 = temp;
-                console.log(drawWorld());
-                drawGrid();
+                drawWorld();
             };
+
+            drawWorld();
 
             setInterval(() => {
                 step();
