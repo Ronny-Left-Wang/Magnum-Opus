@@ -5,36 +5,12 @@
         <link rel="icon" href="https://pbs.twimg.com/profile_images/1103056143322996736/yFwE2PJv_400x400.png">
     </head>
     <body>
-        <canvas id="game" width="800" height="800" style="border:1px solid #000000;"></canvas>
+        <canvas id="game" width="800" height="800" style="border:1px solid #000000;">
+            Your browser does not support canvas. Thank you.
+        </canvas>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.0/pixi.min.js"></script>
         <script>
-            /*
-            let Application = PIXI.Application,
-                loader = PIXI.loader,
-                resources = PIXI.loader.resources,
-                Sprite = PIXI.Sprite,
-                Graphics = PIXI.Graphics;
-
-            let app = new Application({
-                width: 500,
-                height: 500,
-                antialias: true,
-                transparent: false,
-                resolution: 1
-            });
-
-            let gameWidth = app.renderer.view.width;
-            let gameHeight = app.renderer.view.Height;
-            let tileSize = 100;
-
-            document.body.appendChild(app.view);
-            app.renderer.backgroundColor = 0xFFFFFF;
-            app.renderer.view.style = "border:1px solid #000000;";
-
-            // 5x5 grid draw squares
-            */
-
             /*
              1. Any live cell with fewer than two live neighbours dies, as if by underpopulation.
              2. Any live cell with two or three live neighbours lives on to the next generation.

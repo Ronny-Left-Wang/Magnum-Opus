@@ -4,41 +4,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.0/pixi.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script>
-            // TODO Load and draw sprites from root page (can be any size and position)
-            // let app = new PIXI.Application({width: 400, height: 400});
-            // document.body.appendChild(app.view);
-
-            /* Converts ordinary image file to  WebGL texture. Pixi uses texture cache to 
-                store all the texture sprites. */
-            // PIXI.utils.TextureCache["../public/images/bunny.png"];
-            // Using Pixi's sprite class to make new sprite using the texture.
-            // let texture = PIXI.utils.TextureCache["../public/images/bunny.png"];
-            // loader loads the image and converts it into a texture.
-            /*
-            PIXI.loader
-                .add([
-                    "../public/images/bunny.png",
-                    "../public/images/tree.png",
-                    "../public/images/golem.png"
-                ])
-                .load(setup);
-
-            function setup() {
-                // Code that runs after loader is finished loading image.
-                let bunny = new PIXI.Sprite(PIXI.loader.resources["../public/images/bunny.png"].texture);
-                let golem = new PIXI.Sprite(PIXI.loader.resources["../public/images/golem.png"].texture);
-                app.stage.addChild(bunny);
-                app.stage.addChild(golem);
-                // To make DISAPPEAR: bunny.visible = false;
-            }
-            */
-
-            /* Aliases for less typing: 
-                let TextureCache = PIXI.utils.TextureCache
-                let texture = TextureCache["images/cat.png
-             */
-
-            /*** BETTER VERSION using aliases ***/
             let Application = PIXI.Application,
                 loader = PIXI.loader,
                 resources = PIXI.loader.resources,

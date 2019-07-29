@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pixi</title>
+        <link rel="icon" href="https://pbs.twimg.com/profile_images/1103056143322996736/yFwE2PJv_400x400.png">
+    </head>
+    <body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.0/pixi.min.js"></script>
+        <script>
+            // for less typing, easier to edit later on if they have updates.
+            let Application = PIXI.Application,
+                loader = PIXI.loader,
+                resources = PIXI.loader.resources,
+                Sprite = PIXI.Sprite,
+                Graphics = PIXI.Graphics;
+
+            // creates canvas using pixi
+            let app = new Application({
+                width: 400,
+                height: 400
+            });
+
+            // attaches canvas to body
+            document.body.appendChild(app.view);
+
+            let height = app.renderer.view.height;
+            let width = app.renderer.view.width;
+
+            // get the sprites
+            loader
+                .add([
+                    "../public/images/golem.png"
+                    ])
+                    .load(setup);
+
+            let player;
+            let velX = 0;
+            let velY = 0;
+            let speed = 5;
+
+            function setup() {
+                player = new Sprite(resources["../public/images/golem.png"].texture);
+
+                app.stage.addChild(player);
+                app.ticker.add(delta => gameLoop(delta));
+            }
+
+            function gameLoop(delta) {
+                player.x += velX;
+                player.y += velY;
+            }
+
+            window.addEventListener("keydown", (e) => {
+                let value = e.keyCode;
+                console.log(value);
+                velX = 0;
+                velY = 0;
+                if (value == 65) {
+                    velX -= speed;
+                } else if (value == 68) {
+                    velX += speed;
+                } else if (value == 87) {
+                    velY -= speed;
+                } else if (value == 83) {
+                    velY += speed;
+                }
+            });
+
+
+        </script>
+    </body>
+</html>

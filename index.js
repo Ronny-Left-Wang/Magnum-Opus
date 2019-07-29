@@ -39,6 +39,10 @@ app.get('/life', (req, res) => {
     return res.render('life');
 });
 
+app.get('/random', (req, res) => {
+    return res.render('random');
+});
+
 app.get('/pixie', (req, res) => {
     return res.render('pixie', {
         'trees': JSON.stringify(Game.trees), 
