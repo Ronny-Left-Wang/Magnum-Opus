@@ -29,7 +29,8 @@
             // get the sprites
             loader
                 .add([
-                    "../public/images/golem.png"
+                    "../public/images/golem.png",
+                    "../public/images/bunny.png"
                     ])
                     .load(setup);
 
@@ -37,24 +38,28 @@
             let velX = 0;
             let velY = 0;
             let speed = 5;
-            let temp = 0;
 
             function setup() {
                 player = new Sprite(resources["../public/images/golem.png"].texture);
+                bunny = new Sprite(resources["../public/images/bunny.png"].texture);
 
                 app.stage.addChild(player);
+                app.stage.addChild(bunny);
                 app.ticker.add(delta => gameLoop(delta));
             }
 
             function gameLoop(delta) {
                 player.x += velX;
                 player.y += velY;
+                if (player.x + player.width > width) {
+                    player.x = width - player.width;
+                    console.log("haew");
+                }
             }
 
             window.addEventListener("keydown", (e) => {
                 let value = e.keyCode;
 
-                console.log(value);
                 if (value == 65 && velX <= 0) {
                     velX = 0;
                     velY = 0;
@@ -72,8 +77,8 @@
                     velY = 0;
                     velY += speed;
                 }
+            let temp = 0;
             });
-
 
         </script>
     </body>
