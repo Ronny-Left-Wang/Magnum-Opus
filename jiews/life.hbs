@@ -5,7 +5,7 @@
         <link rel="icon" href="https://pbs.twimg.com/profile_images/1103056143322996736/yFwE2PJv_400x400.png">
     </head>
     <body>
-        <canvas id="game" width="400" height="400" style="border:1px solid #000000;"></canvas>
+        <canvas id="game" width="5000" height="5000" style="border:1px solid #000000;"></canvas>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.0/pixi.min.js"></script>
         <script>
@@ -45,7 +45,6 @@
             let canvas = document.getElementById("game");
             let ctx = canvas.getContext("2d");
 
-
             let world = [
                 [1, 1, 0, 1, 0],
                 [0, 1, 1, 1, 1],
@@ -69,19 +68,14 @@
                 return string;
             };
 
+            let cellSize = 100;
             let drawGrid = () => {
-                let x = 0;
-                let y = 0;
-                while (y < 400) {
-                    ctx.rect (x, y, 80, 80);
-                    ctx.stroke();
-                    ctx.rect(0, x, 80, 80);
-                    ctx.stroke();
-                    if (x == 400) {
-                        y += 80;
-                        x = 0;
+                for (let i = 0; i < size * cellSize; i+=cellSize) {
+                    for (let j = 0; j < size * cellSize; j+=cellSize) {
+                        ctx.beginPath();
+                        ctx.rect(i, j, cellSize, cellSize);
+                        ctx.stroke();
                     }
-                    x += 80;
                 }
             };
             drawGrid();
