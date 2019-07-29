@@ -83,6 +83,7 @@
 
             let getNeighbors = (i, j) => {
                 let neighbors = [];
+                // TODO remove unnecessary checks
                 if (i - 1 >= 0 && j - 1 >= 0)
                     neighbors.push(world[i - 1][j - 1]);
                 if (i - 1 >= 0 && j >= 0 && j < size)
@@ -102,24 +103,27 @@
                 return neighbors;
             };
 
-            let makeAlive = (i, j) => {
+            let makeAlive = (i, j, world) => {
                 world[i][j] = 1;
-                return 1;
             };
 
-            let makeDead = (i, j) => {
+            let makeDead = (i, j, world) => {
                 world[i][j] = 0;
-                return 0;
             };
+
+            // TODO isAlive isDead functions
 
             let survival = (currWorld) => {
+                // World to replace previous world
                 let world2 = [];
                 for (let i = 0; i < size; i++) {
                     world2[i] = [];
                 };
 
+                // Using state of first world, change the state of second world
                 for (let i = 0; i < size; i++) {
                     for (let j = 0; j < size; j++) {
+                        // Check number of living neighbors
                         let cell = currWorld[i][j];
                         let neighbors = getNeighbors(i, j);
                         let liveNeighbors = 0;
@@ -128,18 +132,21 @@
                                 liveNeighbors++;
                             }
                         }
-                        if (cell == 1 && liveNeighbors < 2) {
-                            cell = 0;
+                        // Game of life rules
+                        if (isAlive(cell) && liveNeighbors < 2) {
+                            makeDead(i, j, world2);
+                            //TODO change to isAlive, makeDead, etc. functions to be more verBOSE
                         } else if (cell == 1 && (liveNeighbors == 2 || liveNeighbors == 3)) {
                             cell = 1;
                         } else if (cell == 1 && liveNeighbors > 3) {
                             cell = 0;
-                        } else if (cell == 0 && liveNeighbors == 3) {
+                        } else if (isDead(cell) && liveNeighbors == 3) {
                             cell = 1;
                         }
-                        world2[i][j] = cell;
                     }
                 }
+
+                // Replace world with modified world
                 world = world2;
             };
 
