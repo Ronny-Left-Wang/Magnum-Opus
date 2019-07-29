@@ -37,6 +37,7 @@
             let velX = 0;
             let velY = 0;
             let speed = 5;
+            let temp = 0;
 
             function setup() {
                 player = new Sprite(resources["../public/images/golem.png"].texture);
@@ -52,16 +53,23 @@
 
             window.addEventListener("keydown", (e) => {
                 let value = e.keyCode;
+
                 console.log(value);
-                velX = 0;
-                velY = 0;
-                if (value == 65) {
+                if (value == 65 && velX <= 0) {
+                    velX = 0;
+                    velY = 0;
                     velX -= speed;
-                } else if (value == 68) {
+                } else if (value == 68 && velX >= 0) {
+                    velX = 0;
+                    velY = 0;
                     velX += speed;
-                } else if (value == 87) {
+                } else if (value == 87 && velY <= 0) {
+                    velX = 0;
+                    velY = 0;
                     velY -= speed;
-                } else if (value == 83) {
+                } else if (value == 83 && velY >= 0) {
+                    velX = 0;
+                    velY = 0;
                     velY += speed;
                 }
             });
