@@ -46,19 +46,30 @@
             let ctx = canvas.getContext("2d");
             let width = canvas.width;
             let height = canvas.height;
-            let cellSize = 100;
+            let cellSize = 30;
 
             ctx.fillStyle = "#808080";
 
             let world = [
-                [1, 1, 0, 1, 0],
-                [0, 1, 1, 1, 1],
-                [1, 0, 0, 1, 0],
-                [0, 1, 1, 0, 0],
-                [0, 1, 0, 1, 0]
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+                [0, 0, 0, 0, 0, 0, 1, 1, 0, 0],
+                [0, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+                [0, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+                [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+                [0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
+                [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             ];
 
             let size = world.length;
+
+            let world2 = [];
+            for (let i = 0; i < size; i++) {
+                world2[i] = [];
+            };
+
 
             let drawWorld = () => {
                 let string = "/---------------\\\n";
@@ -79,9 +90,6 @@
                         ctx.beginPath();
                         ctx.rect(j, i, cellSize, cellSize);
                         ctx.stroke();
-                        // if world at ij == 1, fill it.
-                        // how can i do that, need separate variables.
-                        // need 2 mmore loops? but then O OF N will be LARGE
                         if (world[i/cellSize][j/cellSize] == 1) {
                             ctx.fillRect(j, i, cellSize, cellSize);
                         }
@@ -173,19 +181,10 @@
                 return 0;
             };
 
-            let deadOrAlive = (i, j) => {
-                let cell = world[i][j];
-                if (cell == 0) {
-                    return "Dead";
-                } else {
-                    return "Alive";
-                }
-            };
-
-            let survival = () => {
+            let survival = (currWorld) => {
                 for (let i = 0; i < size; i++) {
                     for (let j = 0; j < size; j++) {
-                        let cell = world[i][j];
+                        let cell = currWorld[i][j];
                         let neighbors = getNeighbors(i, j);
                         let liveNeighbors = 0;
                         for (let k = 0; k < neighbors.length; k++) {
@@ -194,30 +193,35 @@
                             }
                         }
                         if (cell == 1 && liveNeighbors < 2) {
-                            cell = makeDead(cell);
-                        } else if (cell == 1 && liveNeighbors >= 2 && liveNeighbors <= 3) {
-                            cell = makeAlive(cell);
+                            cell = 0;
+                        } else if (cell == 1 && (liveNeighbors == 2 || liveNeighbors == 3)) {
+                            cell = 1;
                         } else if (cell == 1 && liveNeighbors > 3) {
-                            cell = makeDead(cell);
+                            cell = 0;
+                        } else if (cell == 0 && liveNeighbors == 3) {
+                            cell = 1;
                         }
-                        if (cell == 0 && liveNeighbors == 3) {
-                            cell = makeAlive(cell);
-                        }
-                        world[i][j] = cell;
+                        world2[i][j] = cell;
                     }
                 }
+            console.log(world2);
             };
 
+            drawGrid();
+            console.log(drawWorld());
             let step = () => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                survival();
-                drawGrid();
+                survival(world);
+                let temp = world;
+                world = world2;
+                world2 = temp;
                 console.log(drawWorld());
+                drawGrid();
             };
 
             setInterval(() => {
                 step();
-            }, 1000);
+            }, 200);
         </script>
     </body>
 </html>
