@@ -1,8 +1,8 @@
 const size = 10;
 let world;
 
-let imgGuy1 = '<img rel="prefetch" width="20" alt="golem" title="golem" src="/public/images/golem.png"></img>';
-let imgGuy2 = '<img rel="prefetch" width="20" alt="golem" title="golem" src="/public/images/golem.png"></img>';
+let imgGuy1 = '<img rel="prefetch" height="20" width="20" alt="golem" title="golem" src="/public/images/golem.png"></img>';
+let imgGuy2 = '<img rel="prefetch" height="20" width="20" alt="golem" title="golem" src="/public/images/golem.png"></img>';
 let imgGrass = `<img width="20" height="20" src="/public/images/Grass.png"></img>`;
 let imgWater = `<img rel="prefetch" width="20" src="/public/images/water.png"</img>`;
 let imgBunny = `<img width="20" height="20" src="/public/images/bunny.png"></img>`;
