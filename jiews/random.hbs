@@ -23,8 +23,8 @@
             // attaches canvas to body
             document.body.appendChild(app.view);
 
-            let height = app.renderer.view.height;
-            let width = app.renderer.view.width;
+            let screenHeight = app.renderer.view.height;
+            let screenWidth = app.renderer.view.width;
 
             // get the sprites
             loader
@@ -47,9 +47,21 @@
             function gameLoop(delta) {
                 player.x += velX;
                 player.y += velY;
-                if (player.x + player.width > width) {
-                    player.x = width - player.width;
+                if (player.x + player.width > screenWidth) {
+                    player.x = screenWidth - player.width;
                     velX = 0;
+                }
+                if (player.x < 0) {
+                    player.x = 0;
+                    velX = 0;
+                }
+                if (player.y > screenHeight - player.height) {
+                    player.y = screenHeight - player.height;
+                    velY = 0;
+                }
+                if (player.y < 0) {
+                    player.y = 0;
+                    velY  = 0;
                 }
             }
 
@@ -61,7 +73,7 @@
             window.addEventListener("keydown", (e) => {
                 let value = e.keyCode;
 
-                if (value == 65 && (velX <= 0 || velX == 0)) {
+                if (value == 65 && velX <= 0) {
                     velX = 0;
                     velY = 0;
                     velX -= speed;
