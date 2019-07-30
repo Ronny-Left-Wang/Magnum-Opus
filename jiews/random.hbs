@@ -38,7 +38,7 @@
             let cookie;
             let velX = 0;
             let velY = 0;
-            let speed = 2;
+            let speed = 4;
 
             // keeps player in game screen
             let containPlayer = () => {
@@ -109,15 +109,17 @@
                 player.y += velY;
                 containPlayer();
 
-                if (hitCookie(player, cookie)) {
-                    app.stage.removeChild(cookie);
-
+                if (collision(player, cookie)) {
                     let randomX = Math.random() * screenWidth;
                     let randomY = Math.random() * screenHeight;
+                    cookie.x = randomX - cookie.width;
+                    cookie.y = randomY - cookie.height; // still a problem
+                    console.log("COLLISION");
+                    console.log(cookie.x + " " + cookie.y);
                 }
             }
 
-            function hitCookie(obj1, obj2) {
+            function collision(obj1, obj2) {
                 let hit = false;
 
                 // center of each sprite
