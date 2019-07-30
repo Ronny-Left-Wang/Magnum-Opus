@@ -109,13 +109,21 @@
                 player.y += velY;
                 containPlayer();
 
+                // if there is collision...
                 if (collision(player, cookie)) {
+                    app.stage.removeChild(cookie);
+                    newCookie = new Sprite(resources["../public/images/cookie.png"].texture);
                     let randomX = Math.random() * screenWidth;
                     let randomY = Math.random() * screenHeight;
-                    cookie.x = randomX - cookie.width;
-                    cookie.y = randomY - cookie.height; // still a problem
-                    console.log("COLLISION");
+                    newCookie.x = randomX - cookie.width;
+                    newCookie.y = randomY - cookie.height; // still a problem
+                    newCookie.width = 20;
+                    newCookie.height = 20;
+                    console.log(cookie.x);
+                    cookie = newCookie;
                     console.log(cookie.x + " " + cookie.y);
+                    app.stage.addChild(newCookie);
+                    console.log("COLLISION");
                 }
             }
 
