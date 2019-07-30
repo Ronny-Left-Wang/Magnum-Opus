@@ -16,8 +16,8 @@
 
             // creates canvas using pixi
             let app = new Application({
-                width: 400,
-                height: 400
+                width: 600,
+                height: 600
             });
 
             // attaches canvas to body
@@ -34,11 +34,14 @@
                     ])
                     .load(setup);
 
+            const cookieWidth = 20;
+            const cookieHeight = 20;
+
             let player;
             let cookie;
             let velX = 0;
             let velY = 0;
-            let speed = 4;
+            let speed = 7;
 
             // keeps player in game screen
             let containPlayer = () => {
@@ -83,14 +86,23 @@
                 }
             };
 
+            function spawnCookie(cookie) {
+                let randomX = Math.random() * (screenWidth - cookieWidth);
+                let randomY = Math.random() * (screenHeight - cookieHeight);
+                cookie.x = randomX;
+                cookie.y = randomY;
+                cookie.width = cookieWidth;
+                cookie.height = cookieHeight;
+                app.stage.addChild(cookie);
+            }
+
             function setup() {
                 player = new Sprite(resources["../public/images/golem.png"].texture);
+                player.width *= .6;
+                player.height *= .6;
                 cookie = new Sprite(resources["../public/images/cookie.png"].texture);
 
-                cookie.x = screenWidth/4;
-                cookie.y = screenHeight/4;
-                cookie.height = 20;
-                cookie.width = 20;
+                spawnCookie(cookie);
 
                 app.stage.addChild(player);
                 app.stage.addChild(cookie);
@@ -110,54 +122,23 @@
                 containPlayer();
 
                 // if there is collision...
-                if (collision(player, cookie)) {
-                    app.stage.removeChild(cookie);
+                if (checkCollision(player, cookie)) {
+                    let cookieWidth = cookie.width;
+                    let cookieHeight = cookie.height;
+                    cookie.destroy();
+
                     newCookie = new Sprite(resources["../public/images/cookie.png"].texture);
-                    let randomX = Math.random() * screenWidth;
-                    let randomY = Math.random() * screenHeight;
-                    newCookie.x = randomX - cookie.width;
-                    newCookie.y = randomY - cookie.height; // still a problem
-                    newCookie.width = 20;
-                    newCookie.height = 20;
-                    console.log(cookie.x);
+                    spawnCookie(newCookie);
                     cookie = newCookie;
-                    console.log(cookie.x + " " + cookie.y);
-                    app.stage.addChild(newCookie);
-                    console.log("COLLISION");
                 }
             }
 
-            function collision(obj1, obj2) {
-                let hit = false;
-
-                // center of each sprite
-                obj1.centerX = obj1.x + obj1.width / 2;
-                obj1.centerY = obj1.y + obj1.height / 2;
-                obj2.centerX = obj2.y + obj2.width / 2;
-                obj2.centerY = obj2.y + obj2.height / 2;
-
-                // distance VECTOR between SPRITES
-                vx = obj1.centerX - obj2.centerX;
-                vy = obj1.centerY - obj2.centerY;
-
-                // half widths and heights...
-                obj1.halfWidth = obj1.width / 2;
-                obj1.halfHeight = obj1.height / 2;
-                obj2.halfWidth = obj2.width / 2;
-                obj2.halfHeight = obj2.height / 2;
-
-                // to detect the edges of the sprites
-                combinedHalfWidths = obj1.halfWidth + obj2.halfWidth;
-                combinedHalfHeights = obj1.halfHeight + obj2.halfHeight;
-
-                // check for collision
-                if (Math.abs(vx) < combinedHalfWidths) {
-                    if (Math.abs(vy) < combinedHalfHeights) {
-                        hit = true;
-                        return hit;
-                    }
-                }
-                return hit;
+            function checkCollision(rect1, rect2) {
+                if (rect1.x < rect2.x + rect2.width &&
+                    rect1.x + rect1.width > rect2.x &&
+                    rect1.y < rect2.y + rect2.height &&
+                    rect1.y + rect1.height > rect2.y) return true;
+                return false;
             }
 
             window.addEventListener("keydown", (e) => movePlayer(e));
