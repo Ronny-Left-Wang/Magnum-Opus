@@ -34,19 +34,13 @@
                     ])
                     .load(setup);
 
+            let player;
+            let velX = 0;
+            let velY = 0;
+            let speed = 5;
 
-            function setup() {
-                player = new Sprite(resources["../public/images/golem.png"].texture);
-                bunny = new Sprite(resources["../public/images/bunny.png"].texture);
-
-                app.stage.addChild(player);
-                app.stage.addChild(bunny);
-                app.ticker.add(delta => gameLoop(delta));
-            }
-
-            function gameLoop(delta) {
-                player.x += velX;
-                player.y += velY;
+            // keeps player in game screen
+            let containPlayer = () => {
                 if (player.x + player.width > screenWidth) {
                     player.x = screenWidth - player.width;
                     velX = 0;
@@ -61,16 +55,12 @@
                 }
                 if (player.y < 0) {
                     player.y = 0;
-                    velY  = 0;
+                    velY = 0;
                 }
-            }
+            };
 
-            let player;
-            let velX = 0;
-            let velY = 0;
-            let speed = 5;
-
-            window.addEventListener("keydown", (e) => {
+            // player movement
+            let movePlayer = (e) => {
                 let value = e.keyCode;
 
                 if (value == 65 && velX <= 0) {
@@ -90,8 +80,24 @@
                     velY = 0;
                     velY += speed;
                 }
-            });
+            };
 
+            function setup() {
+                player = new Sprite(resources["../public/images/golem.png"].texture);
+                bunny = new Sprite(resources["../public/images/bunny.png"].texture);
+
+                app.stage.addChild(player);
+                app.stage.addChild(bunny);
+                app.ticker.add(delta => gameLoop(delta));
+            }
+
+            function gameLoop(delta) {
+                player.x += velX;
+                player.y += velY;
+                containPlayer();
+            }
+
+            window.addEventListener("keydown", (e) => movePlayer(e));
         </script>
     </body>
 </html>
