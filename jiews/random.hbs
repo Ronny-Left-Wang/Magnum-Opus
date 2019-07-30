@@ -34,10 +34,6 @@
                     ])
                     .load(setup);
 
-            let player;
-            let velX = 0;
-            let velY = 0;
-            let speed = 5;
 
             function setup() {
                 player = new Sprite(resources["../public/images/golem.png"].texture);
@@ -53,14 +49,19 @@
                 player.y += velY;
                 if (player.x + player.width > width) {
                     player.x = width - player.width;
-                    console.log("haew");
+                    velX = 0;
                 }
             }
+
+            let player;
+            let velX = 0;
+            let velY = 0;
+            let speed = 5;
 
             window.addEventListener("keydown", (e) => {
                 let value = e.keyCode;
 
-                if (value == 65 && velX <= 0) {
+                if (value == 65 && (velX <= 0 || velX == 0)) {
                     velX = 0;
                     velY = 0;
                     velX -= speed;
@@ -77,7 +78,6 @@
                     velY = 0;
                     velY += speed;
                 }
-            let temp = 0;
             });
 
         </script>
