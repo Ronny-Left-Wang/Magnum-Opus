@@ -30,11 +30,12 @@
             loader
                 .add([
                     "../public/images/golem.png",
-                    "../public/images/bunny.png"
+                    "../public/images/cookie.png"
                     ])
                     .load(setup);
 
             let player;
+            let cookie;
             let velX = 0;
             let velY = 0;
             let speed = 5;
@@ -84,17 +85,41 @@
 
             function setup() {
                 player = new Sprite(resources["../public/images/golem.png"].texture);
-                bunny = new Sprite(resources["../public/images/bunny.png"].texture);
+                cookie = new Sprite(resources["../public/images/cookie.png"].texture);
+
+                cookie.x = screenWidth/2;
+                cookie.y = screenHeight/2;
+                cookie.height = 20;
+                cookie.width = 20;
 
                 app.stage.addChild(player);
-                app.stage.addChild(bunny);
+                app.stage.addChild(cookie);
+
+                state = play;
+
                 app.ticker.add(delta => gameLoop(delta));
             }
 
             function gameLoop(delta) {
+                state(delta);
+            }
+
+            function play(delta) {
                 player.x += velX;
                 player.y += velY;
                 containPlayer();
+
+                if (hitCookie(player, cookie)) {
+                    app.stage.removeChild(cookie);
+                }
+            }
+
+            function hitCookie(obj1, obj2) {
+                let hit;
+
+
+
+
             }
 
             window.addEventListener("keydown", (e) => movePlayer(e));
