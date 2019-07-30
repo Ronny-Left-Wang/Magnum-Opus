@@ -29,7 +29,7 @@
             // get the sprites
             loader
                 .add([
-                    "../public/images/golem2.png",
+                    "../public/images/golem.png",
                     "../public/images/bunny.png"
                     ])
                     .load(setup);
@@ -83,7 +83,7 @@
             };
 
             function setup() {
-                player = new Sprite(resources["../public/images/golem2.png"].texture);
+                player = new Sprite(resources["../public/images/golem.png"].texture);
                 bunny = new Sprite(resources["../public/images/bunny.png"].texture);
 
                 app.stage.addChild(player);
