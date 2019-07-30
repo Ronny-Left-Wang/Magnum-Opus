@@ -38,7 +38,7 @@
             let cookie;
             let velX = 0;
             let velY = 0;
-            let speed = 5;
+            let speed = 2;
 
             // keeps player in game screen
             let containPlayer = () => {
@@ -87,8 +87,8 @@
                 player = new Sprite(resources["../public/images/golem.png"].texture);
                 cookie = new Sprite(resources["../public/images/cookie.png"].texture);
 
-                cookie.x = screenWidth/2;
-                cookie.y = screenHeight/2;
+                cookie.x = screenWidth/4;
+                cookie.y = screenHeight/4;
                 cookie.height = 20;
                 cookie.width = 20;
 
@@ -111,15 +111,43 @@
 
                 if (hitCookie(player, cookie)) {
                     app.stage.removeChild(cookie);
+
+                    let randomX = Math.random() * screenWidth;
+                    let randomY = Math.random() * screenHeight;
                 }
             }
 
             function hitCookie(obj1, obj2) {
-                let hit;
+                let hit = false;
 
+                // center of each sprite
+                obj1.centerX = obj1.x + obj1.width / 2;
+                obj1.centerY = obj1.y + obj1.height / 2;
+                obj2.centerX = obj2.y + obj2.width / 2;
+                obj2.centerY = obj2.y + obj2.height / 2;
 
+                // distance VECTOR between SPRITES
+                vx = obj1.centerX - obj2.centerX;
+                vy = obj1.centerY - obj2.centerY;
 
+                // half widths and heights...
+                obj1.halfWidth = obj1.width / 2;
+                obj1.halfHeight = obj1.height / 2;
+                obj2.halfWidth = obj2.width / 2;
+                obj2.halfHeight = obj2.height / 2;
 
+                // to detect the edges of the sprites
+                combinedHalfWidths = obj1.halfWidth + obj2.halfWidth;
+                combinedHalfHeights = obj1.halfHeight + obj2.halfHeight;
+
+                // check for collision
+                if (Math.abs(vx) < combinedHalfWidths) {
+                    if (Math.abs(vy) < combinedHalfHeights) {
+                        hit = true;
+                        return hit;
+                    }
+                }
+                return hit;
             }
 
             window.addEventListener("keydown", (e) => movePlayer(e));
