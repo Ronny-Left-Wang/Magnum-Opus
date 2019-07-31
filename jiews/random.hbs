@@ -7,6 +7,14 @@
     <body>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.0/pixi.min.js"></script>
         <script>
+            /*
+            I am manchild sleep 5am. That means I wake up at 2pm. While I'm asleep I want u to work on snake game. 
+            1. First I want u to create a cookie. If ur snake touches cookie, cookie disappears, and a new cookie spawns.
+            2. Then create enemies where if snake run into them, he dies.
+            3. Every time a snake eats a cookie a new enemy gets created.
+            Temptation? Just DEFEAT IT
+            */
+
             // for less typing, easier to edit later on if they have updates.
             let Application = PIXI.Application,
                 loader = PIXI.loader,
@@ -30,7 +38,8 @@
             loader
                 .add([
                     "../public/images/golem.png",
-                    "../public/images/cookie.png"
+                    "../public/images/cookie.png",
+                    "../public/images/tree.png"
                     ])
                     .load(setup);
 
@@ -39,6 +48,7 @@
 
             let player;
             let cookie;
+            let enemy;
             let velX = 0;
             let velY = 0;
             let speed = 7;
@@ -86,29 +96,29 @@
                 }
             };
 
-            function spawnCookie(cookie) {
-                let randomX = Math.random() * (screenWidth - cookieWidth);
-                let randomY = Math.random() * (screenHeight - cookieHeight);
-                cookie.x = randomX;
-                cookie.y = randomY;
-                cookie.width = cookieWidth;
-                cookie.height = cookieHeight;
-                app.stage.addChild(cookie);
+            // spawns object at random location on canvas
+            function spawnObject(obj, objWidth, objHeight) {
+                let randomX = Math.random() * (screenWidth - objWidth);
+                let randomY = Math.random() * (screenHeight - objHeight);
+                obj.x = randomX;
+                obj.y = randomY;
+                obj.width = objWidth;
+                obj.height = objHeight;
+                app.stage.addChild(obj);
             }
 
             function setup() {
                 player = new Sprite(resources["../public/images/golem.png"].texture);
-                player.width *= .6;
-                player.height *= .6;
+                player.width *= 0.6;
+                player.height *= 0.6;
                 cookie = new Sprite(resources["../public/images/cookie.png"].texture);
 
-                spawnCookie(cookie);
+                spawnObject(cookie, cookieWidth, cookieHeight);
 
                 app.stage.addChild(player);
                 app.stage.addChild(cookie);
 
                 state = play;
-
                 app.ticker.add(delta => gameLoop(delta));
             }
 
@@ -128,8 +138,12 @@
                     cookie.destroy();
 
                     newCookie = new Sprite(resources["../public/images/cookie.png"].texture);
-                    spawnCookie(newCookie);
+                    spawnObject(newCookie, cookieWidth, cookieHeight);
                     cookie = newCookie;
+
+                    enemy = new Sprite(resources["../public/images/tree.png"].texture);
+                    spawnObject(enemy, enemy.width * 0.05, enemy.height * 0.05); // can be cleaned up
+
                 }
             }
 
