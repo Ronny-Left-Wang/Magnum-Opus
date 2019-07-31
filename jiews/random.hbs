@@ -134,10 +134,46 @@
             }
 
             function checkCollision(rect1, rect2) {
-                if (rect1.x < rect2.x + rect2.width &&
-                    rect1.x + rect1.width > rect2.x &&
-                    rect1.y < rect2.y + rect2.height &&
-                    rect1.y + rect1.height > rect2.y) return true;
+                return rectBInRectA(rect1, rect2) || rectBInRectA(rect2, rect1);
+            }
+
+            function rectBInRectA(A, B) {
+                // i am going to check every point of B TO SE IF INSIDE Aj A A a u like zi yun
+                // TOP LEFT
+                // look i check if x is out side of A
+                let topLeft = {
+                    x: B.x,
+                    y: B.y
+                }
+                if (pointInRect(topLeft, A)) return true;
+
+                // TOP RIGHT
+                let topRight = {
+                    x: B.x + B.width,
+                    y: B.y
+                }
+                if (pointInRect(topRight, A)) return true;
+
+                // BOTTOM LEFT
+                let bottomLeft = {
+                    x: B.x,
+                    y: B.y + B.height
+                }
+                if (pointInRect(bottomLeft, A)) return true;
+
+                // BOTTOM RIGHT
+                let bottomRight = {
+                    x: B.x + B.width,
+                    y: B.y + B.height
+                }
+                if (pointInRect(bottomRight, A)) return true;
+
+                return false;
+            }
+
+            function pointInRect(point, rect) {
+                if (point.x >= rect.x && point.x <= rect.x + rect.width &&
+                    point.y >= rect.y && point.y <= rect.y + rect.height) return true;
                 return false;
             }
 
