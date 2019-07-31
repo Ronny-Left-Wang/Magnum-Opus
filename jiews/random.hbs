@@ -147,7 +147,7 @@
 
                 if (typeof enemy != "undefined") {
                     if (checkCollision(player, enemy)) {
-                        console.log("dead");
+                        player.destroy();
                     }
                 }
             }
