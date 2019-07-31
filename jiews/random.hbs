@@ -143,7 +143,12 @@
 
                     enemy = new Sprite(resources["../public/images/tree.png"].texture);
                     spawnObject(enemy, enemy.width * 0.05, enemy.height * 0.05); // can be cleaned up
+                }
 
+                if (typeof enemy != "undefined") {
+                    if (checkCollision(player, enemy)) {
+                        console.log("dead");
+                    }
                 }
             }
 
