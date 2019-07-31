@@ -127,6 +127,7 @@
             }
 
             function play(delta) {
+                if (player.isDeleted) return;
                 player.x += velX;
                 player.y += velY;
                 containPlayer();
@@ -148,6 +149,7 @@
                 if (typeof enemy != "undefined") {
                     if (checkCollision(player, enemy)) {
                         player.destroy();
+                        player.isDeleted = true;
                     }
                 }
             }
