@@ -52,7 +52,8 @@
             let enemies = [];
             let velX = 0;
             let velY = 0;
-            let speed = 7;
+            let speed = 5;
+            let score = 0;
 
             // keeps player in game screen
             let containPlayer = () => {
@@ -141,6 +142,10 @@
                     let cookieWidth = cookie.width;
                     let cookieHeight = cookie.height;
                     cookie.destroy();
+                    player.height *= 1.1;
+                    player.width *= 1.1;
+                    speed += 0.5;
+                    score += 1;
 
                     newCookie = new Sprite(resources["../public/images/cookie.png"].texture);
                     spawnObject(newCookie, cookieWidth, cookieHeight);
@@ -157,6 +162,7 @@
                         if (checkCollision(player, enemy)) {
                             player.destroy();
                             player.isDead = true;
+                            alert("You collected " + score + " cookies");
                             break;
                         }
                     }
