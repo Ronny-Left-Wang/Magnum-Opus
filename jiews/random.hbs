@@ -24,7 +24,7 @@
 
             // creates canvas using pixi
             let app = new Application({
-                width: 600,
+                width: 800,
                 height: 600
             });
 
@@ -52,7 +52,7 @@
             let enemies = [];
             let velX = 0;
             let velY = 0;
-            let speed = 5;
+            let speed = 8;
             let score = 0;
 
             // keeps player in game screen
@@ -111,9 +111,9 @@
 
             function setup() {
                 player = new Sprite(resources["../public/images/golem.png"].texture);
+                cookie = new Sprite(resources["../public/images/cookie.png"].texture);
                 player.width *= 0.6;
                 player.height *= 0.6;
-                cookie = new Sprite(resources["../public/images/cookie.png"].texture);
                 player.isDead = false;
 
                 spawnObject(cookie, cookieWidth, cookieHeight);
@@ -142,10 +142,13 @@
                     let cookieWidth = cookie.width;
                     let cookieHeight = cookie.height;
                     cookie.destroy();
-                    player.height *= 1.1;
-                    player.width *= 1.1;
+
+                    // increase player speed after each cookie
                     speed += 0.5;
-                    score += 1;
+
+                    // how can i give the golem LENGTH, like, a real snake...
+
+                    score = scoreCount(score, 1);
 
                     newCookie = new Sprite(resources["../public/images/cookie.png"].texture);
                     spawnObject(newCookie, cookieWidth, cookieHeight);
@@ -156,6 +159,23 @@
                     enemies.push(enemy);
                 }
 
+                checkIfPlayerDead();
+            }
+
+            // Does all the score MATH
+            function scoreCount(score, increment) {
+                score += increment;
+                return score;
+            }
+
+            // increase object SIZE
+            function increaseSize(obj, ratioX, ratioY) {
+                obj.width *= ratioX;
+                obj.height *= ratioY;
+            }
+
+            // checks if player has died.
+            function checkIfPlayerDead() {
                 for (let i = 0; i < enemies.length; i++) {
                     enemy = enemies[i];
                     if (typeof enemy != "undefined") {
