@@ -49,6 +49,7 @@
             let player;
             let cookie;
             let enemy;
+            let enemies = [];
             let velX = 0;
             let velY = 0;
             let speed = 7;
@@ -112,6 +113,7 @@
                 player.width *= 0.6;
                 player.height *= 0.6;
                 cookie = new Sprite(resources["../public/images/cookie.png"].texture);
+                player.isDead = false;
 
                 spawnObject(cookie, cookieWidth, cookieHeight);
 
@@ -127,6 +129,9 @@
             }
 
             function play(delta) {
+                if (player.isDead) {
+                    return;
+                }
                 player.x += velX;
                 player.y += velY;
                 containPlayer();
@@ -143,11 +148,17 @@
 
                     enemy = new Sprite(resources["../public/images/tree.png"].texture);
                     spawnObject(enemy, enemy.width * 0.05, enemy.height * 0.05); // can be cleaned up
+                    enemies.push(enemy);
                 }
 
-                if (typeof enemy != "undefined") {
-                    if (checkCollision(player, enemy)) {
-                        player.destroy();
+                for (let i = 0; i < enemies.length; i++) {
+                    enemy = enemies[i];
+                    if (typeof enemy != "undefined") {
+                        if (checkCollision(player, enemy)) {
+                            player.destroy();
+                            player.isDead = true;
+                            break;
+                        }
                     }
                 }
             }
