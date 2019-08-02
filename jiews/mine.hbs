@@ -54,6 +54,7 @@
 
             // change color on mouse click
             // get bounding clientrect returns the canvas properties
+            let block = new Graphics();
             let canvas = app.renderer.view;
             console.log(canvas.getBoundingClientRect());
             canvas.addEventListener('click', (e) => getCursorPosition(canvas, e));
@@ -61,10 +62,18 @@
                 const rect = canvas.getBoundingClientRect();
                 const x = event.clientX - rect.left;
                 const y = event.clientY - rect.top;
-                tile.beginFill(0xffffff);
-                tile.drawRect(screenWidth % x, screenHeight % y, 20, 20);
-                tile.endFill();
-                console.log() ;
+
+                let remX = x % 20;
+                let remY = y % 20;
+                console.log(remX + " " + remY);
+                console.log(x-remX);
+                let tileX = (x - remX);
+                let tileY = (y - remY);
+                block.beginFill(0xffffff);
+                block.drawRect(tileX, tileY, 20, 20);
+                block.endFill();
+                app.stage.addChild(block);
+                
             }
 
         </script>
