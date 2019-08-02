@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mine</title>
+        <link rel="icon" href="https://pbs.twimg.com/profile_images/1103056143322996736/yFwE2PJv_400x400.png">
+    </head>
+    <body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.0/pixi.min.js"></script>
+        <script>
+            // minesweeper
+            let Application = PIXI.Application,
+                loader = PIXI.loader,
+                resources = PIXI.loader.resources,
+                Sprite = PIXI.Sprite,
+                Graphics = PIXI.Graphics;
+
+            let app = new Application({
+                width: 600,
+                height: 600
+            });
+
+            app.renderer.backgroundColor = 0xFFFFFF;
+            app.renderer.view.style = "border:1px solid #000000;";
+
+            let screenWidth = app.renderer.view.height;
+            let screenHeight = app.renderer.view.width;
+            document.body.appendChild(app.view);
+
+            // fill tile colors
+            let tile = new Graphics();
+            for (let i = 0; i < screenWidth/20; i++) {
+                for (let j = 0; j < screenWidth/20; j++) {
+                    tile.beginFill(0xD3D3D3);
+                    tile.drawRect(j * 20, i * 20, 20, 20);
+                    tile.endFill();
+                }
+            }
+            app.stage.addChild(tile);
+
+            // draw grid
+            let x = 20;
+            let y = 20;
+            let line = new Graphics();
+            line.lineStyle(2, 0x09370A, 1);
+            while (x < screenHeight) {
+                line.moveTo(x, 0);
+                line.lineTo(x, screenHeight);
+                app.stage.addChild(line);
+                line.moveTo(0, y);
+                line.lineTo(screenWidth, y);
+                y += 20;
+                x += 20;
+            }
+
+            // change color on mouse click
+            // get bounding clientrect returns the canvas properties
+            let canvas = app.renderer.view;
+            console.log(canvas.getBoundingClientRect());
+            canvas.addEventListener('click', (e) => getCursorPosition(canvas, e));
+            function getCursorPosition(canvas, event) {
+                const rect = canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                tile.beginFill(0xffffff);
+                tile.drawRect(screenWidth % x, screenHeight % y, 20, 20);
+                tile.endFill();
+                console.log() ;
+            }
+
+        </script>
+    </body>
+</html>

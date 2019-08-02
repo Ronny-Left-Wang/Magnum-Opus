@@ -43,6 +43,10 @@ app.get('/random', (req, res) => {
     return res.render('random');
 });
 
+app.get('/mine', (req, res) => {
+    return res.render('mine');
+});
+
 app.get('/pixie', (req, res) => {
     return res.render('pixie', {
         'trees': JSON.stringify(Game.trees), 
