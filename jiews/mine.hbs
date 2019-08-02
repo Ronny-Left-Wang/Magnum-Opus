@@ -15,8 +15,8 @@
                 Graphics = PIXI.Graphics;
 
             let app = new Application({
-                width: 600,
-                height: 600
+                width: 200,
+                height: 200
             });
 
             app.renderer.backgroundColor = 0xFFFFFF;
@@ -56,24 +56,62 @@
             // get bounding clientrect returns the canvas properties
             let block = new Graphics();
             let canvas = app.renderer.view;
-            console.log(canvas.getBoundingClientRect());
-            canvas.addEventListener('click', (e) => getCursorPosition(canvas, e));
-            function getCursorPosition(canvas, event) {
+
+            canvas.addEventListener('click', function (e) {
+                revealSelectedTile(canvas, e);
+            });
+
+            function revealSelectedTile(canvas, event) {
                 const rect = canvas.getBoundingClientRect();
                 const x = event.clientX - rect.left;
                 const y = event.clientY - rect.top;
 
                 let remX = x % 20;
                 let remY = y % 20;
-                console.log(remX + " " + remY);
-                console.log(x-remX);
                 let tileX = (x - remX);
                 let tileY = (y - remY);
-                block.beginFill(0xffffff);
+                block.beginFill(0xFFFFFF);
                 block.drawRect(tileX, tileY, 20, 20);
                 block.endFill();
                 app.stage.addChild(block);
-                
+
+                controllerX.push(tileX/20);
+                controllerY.push(tileY/20);
+
+                console.log(controllerX + " " + controllerY);
+                for (let i = 0; i < controllerX.length; i++) {
+                    console.log(realBoard[controllerY[i]][controllerX[i]]);
+                }
+                checkTiles();
+            }
+
+            // 1 = bomb, 0 = empty
+            let size = 10;
+            let realBoard = [];
+            let chance;
+            for (let i = 0; i < size; i++) {
+                realBoard[i] = [];
+                for (let j = 0; j < size; j++) {
+                    chance = Math.random();
+                    if (chance > 0.75) {
+                        realBoard[i].push(1);
+                    } else {
+                        realBoard[i].push(0);
+                    }
+                }
+            }
+
+            console.log(realBoard);
+
+            let controllerX = [];
+            let controllerY = [];
+
+            function checkTiles() {
+                for (let i = 0; i < controllerX.length; i++) {
+                    if (realBoard[controllerY[i]][controllerX[i]] ==  1) {
+                        alert("dead");
+                    }
+                }
             }
 
         </script>
