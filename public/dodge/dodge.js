@@ -254,7 +254,7 @@ class CannonEnemy {
     }
 
     display() {
-        fill(255, 0, 0);
+        fill(85, 20, 85);
         ellipse(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
