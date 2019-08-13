@@ -15,6 +15,10 @@ class Enemy {
         ellipse(this.position.x, this.position.y, this.size, this.size);
     }
 
+    step() {
+        this.move();
+    }
+
     move() {
         this.position.x += this.velX;
         this.position.y += this.velY;
@@ -28,20 +32,29 @@ class Enemy {
 }
 
 class ClapperEnemy {
-    constructor(size, position) {
-        this.size = size;
+    constructor(baseSize, position) {
+        this.baseSize = baseSize;
+        this.size = {
+            x: baseSize.x,
+            y: baseSize.y
+        }
         this.position = position;
         this.speed = 5;
     }
 
-    clap() {
+    step() {
+        this.clap();
+    }
 
+    clap() {
+        this.size.x += this.speed;
+        if (this.position.x + this.size.x > width) this.speed *= -1;
+        if (this.size.x - this.baseSize.x < 0) this.speed *= -1;
     }
 
     display() {
-        fill(0);
+        fill(55, 10, 15);
         rect(this.position.x, this.position.y, this.size.x, this.size.y);
-        rect(width - this.size.x, this.position.y, this.size.x, this.size.y);
     }
 }
 
@@ -129,7 +142,7 @@ function setup() {
     //noStroke();
     ronpob = new Player('ronpob', 20, { x: 10, y: 20 });
     maLong = new Enemy(50, { x: 50, y: 400 });
-    clapper = new ClapperEnemy({ x: 15, y: 35 }, { x: 0, y: height / 2 });
+    clapper = new ClapperEnemy({ x: 115, y: 35 }, { x: 0, y: height / 2 });
     cannon = new CannonEnemy(20, { x: 10, y: 10 }, ronpob);
     homingMissile = new HomingEnemy(20, { x: 10, y: 10 });
 }
@@ -140,9 +153,10 @@ function draw() {
     if (mouseIsPressed && inCanvas({ x: mouseX, y: mouseY})) {
         ronpob.target = { x: mouseX, y: mouseY };
     }
+    clapper.step();
     ronpob.step();
     cannon.step();
-    maLong.move();
+    maLong.step();
     ronpob.isColliding = false;
     if (circleRectCollision(maLong, ronpob)) {
         ronpob.isColliding = true;
