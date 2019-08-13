@@ -139,8 +139,7 @@ let bullets = [];
 
 function setup() {
     let canvas = createCanvas(800, 600);
-    //noStroke();
-    ronpob = new Player('ronpob', 20, { x: 10, y: 20 });
+    ronpob = new Player('ronpob', { x: 20, y: 20 } , { x: 10, y: 20 });
     maLong = new Enemy(50, { x: 50, y: 400 });
     clapper = new ClapperEnemy({ x: 115, y: 35 }, { x: 0, y: height / 2 });
     cannon = new CannonEnemy(20, { x: 10, y: 10 }, ronpob);
@@ -158,15 +157,18 @@ function draw() {
     cannon.step();
     maLong.step();
     ronpob.isColliding = false;
-    if (circleRectCollision(maLong, ronpob)) {
-        ronpob.isColliding = true;
-    }
     for (let i = 0; i < bullets.length; ++i) {
         bullets[i].step();
         if (circleRectCollision(bullets[i], ronpob)) {
             ronpob.isColliding = true;
         }
         bullets[i].display();
+    }
+    if (circleRectCollision(maLong, ronpob)) {
+        ronpob.isColliding = true;
+    }
+    if (rectRectCollision(clapper, ronpob)) {
+        ronpob.isColliding = true;
     }
     cannon.display();
     clapper.display();
@@ -175,8 +177,23 @@ function draw() {
     homingMissile.display();
 }
 
-function rectRectCollision(r1, r2) {
+function rectRectCollision(rectA, rectB) {
+    let rect1 = {
+        x: rectA.position.x,
+        y: rectA.position.y,
+        width: rectA.size.x,
+        height: rectA.size.y
+    }, rect2 = {
+        x: rectB.position.x,
+        y: rectB.position.y,
+        width: rectB.size.x,
+        height: rectB.size.y
+    };
 
+    return (rect1.x < rect2.x + rect2.width &&
+           rect1.x + rect1.width > rect2.x &&
+           rect1.y < rect2.y + rect2.height &&
+           rect1.y + rect1.height > rect2.y);
 }
 
 function circleRectCollision(circle, rect) {
@@ -184,8 +201,8 @@ function circleRectCollision(circle, rect) {
     let cy = circle.position.y;
     let rx = rect.position.x;
     let ry = rect.position.y;
-    let rh = rect.size;
-    let rw = rect.size;
+    let rh = rect.size.y;
+    let rw = rect.size.x;
     let testX = cx;
     let testY = cy;
     let rad = circle.size / 2;
@@ -232,7 +249,7 @@ class Player {
         if (this.isColliding) {
             fill(255, 0, 0);
         }
-        rect(this.position.x, this.position.y, 20, 20);
+        rect(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
     step() {
