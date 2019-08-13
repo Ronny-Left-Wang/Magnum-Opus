@@ -8,14 +8,10 @@ class Enemy {
         this.speed = 4;
         this.velX = this.speed;
         this.velY = this.speed;
-        this.isColliding = false;
     }
 
     display() {
         fill(0, 155, 200);
-        if (this.isColliding) {
-            fill(255, 0, 0);
-        }
         ellipse(this.position.x, this.position.y, this.size, this.size);
     }
 
@@ -75,10 +71,8 @@ class Bullet {
     }
 
     step() {
-        if (this.direction) {
-            this.position.x += this.direction.x;
-            this.position.y += this.direction.y;
-        }
+        this.position.x += this.direction.x;
+        this.position.y += this.direction.y;
     }
 
     display() {
@@ -93,6 +87,9 @@ class CannonEnemy {
         this.position = position;
         this.target = target;
         this.speed = 5;
+        this.t = 0;
+        this.cooldown = 60;
+        this.nextShot = this.cooldown;
     }
 
     display() {
@@ -101,10 +98,20 @@ class CannonEnemy {
     }
 
     step() {
-        if (this.target) {
-            let bullet = new Bullet(this.target.position, { x: 0, y: 0 });
-            console.log('created bullet');
+        this.t += 1;
+        if (this.target && this.t >= this.nextShot) {
+            let direction = {
+                x: this.target.position.x - this.position.x,
+                y: this.target.position.y - this.position.y
+            };
+            let dist = Math.sqrt(direction.x * direction.x + direction.y * direction.y);
+            let normalizedDirection = {
+                x: direction.x / dist,
+                y: direction.y / dist
+            };
+            let bullet = new Bullet({ x: this.position.x, y: this.position.y }, normalizedDirection);
             bullets.push(bullet);
+            this.nextShot += this.cooldown;
         }
     }
 
@@ -119,7 +126,7 @@ let bullets = [];
 
 function setup() {
     let canvas = createCanvas(800, 600);
-    noStroke();
+    //noStroke();
     ronpob = new Player('ronpob', 20, { x: 10, y: 20 });
     maLong = new Enemy(50, { x: 50, y: 400 });
     clapper = new ClapperEnemy({ x: 15, y: 35 }, { x: 0, y: height / 2 });
@@ -136,13 +143,15 @@ function draw() {
     ronpob.step();
     cannon.step();
     maLong.move();
-    maLong.isColliding = false;
+    ronpob.isColliding = false;
     if (circleRectCollision(maLong, ronpob)) {
-        maLong.isColliding = true;
+        ronpob.isColliding = true;
     }
-    // cannon.shootTowardTarget();
     for (let i = 0; i < bullets.length; ++i) {
         bullets[i].step();
+        if (circleRectCollision(bullets[i], ronpob)) {
+            ronpob.isColliding = true;
+        }
         bullets[i].display();
     }
     cannon.display();
@@ -150,7 +159,6 @@ function draw() {
     maLong.display();
     ronpob.display();
     homingMissile.display();
-
 }
 
 function rectRectCollision(r1, r2) {
@@ -206,6 +214,9 @@ class Player {
             fillColor(PLAYER_IDLE_COLOR);
         } else {
             fillColor(PLAYER_MOVE_COLOR);
+        }
+        if (this.isColliding) {
+            fill(255, 0, 0);
         }
         rect(this.position.x, this.position.y, 20, 20);
     }
