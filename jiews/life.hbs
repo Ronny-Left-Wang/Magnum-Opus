@@ -133,7 +133,10 @@
                 // sets all world2 index values to 0
                 // TODO inaccurate
                 for (let i = 0; i < size; i++) {
-                    world2[i] = [0];
+                    world2[i] = [];
+                    for (let j = 0; j < size; j++) {
+                        world2[i][j] = 0;
+                    }
                 };
 
                 // Using state of first world, change the state of second world

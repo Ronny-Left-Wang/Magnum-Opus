@@ -20,40 +20,12 @@
             });
 
             app.renderer.backgroundColor = 0xFFFFFF;
-            app.renderer.view.style = "border:1px solid #000000;";
+            //app.renderer.view.style = "border:1px solid #000000;";
 
             let screenWidth = app.renderer.view.height;
             let screenHeight = app.renderer.view.width;
             document.body.appendChild(app.view);
 
-            // fill tile colors
-            let tile = new Graphics();
-            for (let i = 0; i < screenWidth/20; i++) {
-                for (let j = 0; j < screenWidth/20; j++) {
-                    tile.beginFill(0xD3D3D3);
-                    tile.drawRect(j * 20, i * 20, 20, 20);
-                    tile.endFill();
-                }
-            }
-            app.stage.addChild(tile);
-
-            // draw grid
-            let x = 20;
-            let y = 20;
-            let line = new Graphics();
-            line.lineStyle(2, 0x09370A, 1);
-            while (x < screenHeight) {
-                line.moveTo(x, 0);
-                line.lineTo(x, screenHeight);
-                app.stage.addChild(line);
-                line.moveTo(0, y);
-                line.lineTo(screenWidth, y);
-                y += 20;
-                x += 20;
-            }
-
-            // change color on mouse click
-            // get bounding clientrect returns the canvas properties
             let block = new Graphics();
             let canvas = app.renderer.view;
 
@@ -61,10 +33,12 @@
                 revealSelectedTile(canvas, e);
             });
 
+            // shows what was under the tile that was clicked
             function revealSelectedTile(canvas, event) {
                 const rect = canvas.getBoundingClientRect();
                 const x = event.clientX - rect.left;
                 const y = event.clientY - rect.top;
+                let dead = false;
 
                 let remX = x % 20;
                 let remY = y % 20;
@@ -75,45 +49,60 @@
                 block.endFill();
                 app.stage.addChild(block);
 
-                controllerX.push(tileX/20);
-                controllerY.push(tileY/20);
-
-                console.log(controllerX + " " + controllerY);
-                for (let i = 0; i < controllerX.length; i++) {
-                    console.log(realBoard[controllerY[i]][controllerX[i]]);
-                }
                 checkTiles();
+
+                if (true) {
+                    let bomb = new Graphics();
+                    for (let i = 0; i < size; i++) {
+                        for (let j = 0; j < size; j++) {
+                            if (realBoard[i][j] == 1) {
+                                bomb.beginFill(0x9400D3);
+                                bomb.drawRect(j * 20, i * 20, 20, 20);
+                                bomb.endFill();
+                            }
+                        }
+                    }
+                    app.stage.addChild(bomb);
+                }
             }
 
-            // 1 = bomb, 0 = empty
+            // what the fuck is real board, game board
+            // U = unrevealed, R = revealed, B = bomb
             let size = 10;
-            let realBoard = [];
-            let chance;
+            const realBoard = generateBoard(size);
+            let  gameBoard = [];
             for (let i = 0; i < size; i++) {
-                realBoard[i] = [];
-                for (let j = 0; j < size; j++) {
-                    chance = Math.random();
-                    if (chance > 0.75) {
-                        realBoard[i].push(1);
-                    } else {
-                        realBoard[i].push(0);
+                gameBoard[i] = [];
+            }
+
+            // creates the board
+            function generateBoard(boardSize) {
+                let board = [];
+                for (let i = 0; i < boardSize; i++) {
+                    board[i] = [];
+                    for (let j = 0; j < boardSize; j++) {
+                        let chance = Math.random();
+                        if (chance > 0.75) {
+                            board[i].push(1);
+                        } else {
+                            board[i].push(0);
+                        }
                     }
                 }
+                return board;
             }
-
             console.log(realBoard);
 
-            let controllerX = [];
-            let controllerY = [];
+            function displayBoard() {
+                for (let i = 0; i < size; i++) {
+                    for (let j = 0; j < size; j++) {
 
-            function checkTiles() {
-                for (let i = 0; i < controllerX.length; i++) {
-                    if (realBoard[controllerY[i]][controllerX[i]] ==  1) {
-                        alert("dead");
                     }
                 }
             }
 
+            setInterval(() => {
+            }, 50);
         </script>
     </body>
 </html>
