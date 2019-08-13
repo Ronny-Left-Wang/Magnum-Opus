@@ -11,9 +11,9 @@ let bullets = [];
 function setup() {
     let canvas = createCanvas(800, 600);
     ronpob = new Player('ronpob', { x: 20, y: 20 } , { x: 10, y: 20 });
-    maLong = new Enemy(50, { x: 50, y: 400 });
+    maLong = new BallEnemy({ x: 50, y : 50 }, { x: 50, y: 400 });
     clapper = new ClapperEnemy({ x: 115, y: 35 }, { x: 0, y: height / 2 });
-    cannon = new CannonEnemy(20, { x: 10, y: 10 }, ronpob);
+    cannon = new CannonEnemy({ x: 30, y: 30 }, { x: 300, y: 250 }, ronpob);
     homingMissile = new HomingEnemy({ x: 20, y: 20 }, { x: width / 2, y: height / 2 }, ronpob);
 }
 
@@ -30,10 +30,10 @@ function draw() {
     homingMissile.step();
     ronpob.isColliding = false;
     updateBullets();
-    if (circleRectCollision(maLong, ronpob)) {
-        ronpob.isColliding = true;
-    }
-    if (rectRectCollision(clapper, ronpob)) {
+    if (circleRectCollision(maLong, ronpob) ||
+        rectRectCollision(clapper, ronpob) ||
+        circleRectCollision(homingMissile, ronpob) ||
+        circleRectCollision(cannon, ronpob)) {
         ronpob.isColliding = true;
     }
     cannon.display();
@@ -89,9 +89,9 @@ function circleRectCollision(circle, rect) {
     let ry = rect.position.y;
     let rh = rect.size.y;
     let rw = rect.size.x;
+    let rad = circle.size.x / 2;
     let testX = cx;
     let testY = cy;
-    let rad = circle.size / 2;
 
     if (cx < rx)         testX = rx;      // test left edge
     else if (cx > rx+rw) testX = rx+rw;   // right edge
@@ -167,7 +167,7 @@ class HomingEnemy {
 
 }
 
-class Enemy {
+class BallEnemy {
     constructor(size, position) {
         this.size = size;
         this.position = position;
@@ -178,7 +178,7 @@ class Enemy {
 
     display() {
         fill(0, 155, 200);
-        ellipse(this.position.x, this.position.y, this.size, this.size);
+        ellipse(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
     step() {
@@ -188,10 +188,10 @@ class Enemy {
     move() {
         this.position.x += this.velX;
         this.position.y += this.velY;
-        if (this.position.x + this.size / 2 > width || this.position.x - this.size / 2 < 0) {
+        if (this.position.x + this.size.x / 2 > width || this.position.x - this.size.x / 2 < 0) {
             this.velX *= -1;
         }
-        if (this.position.y + this.size / 2 > height || this.position.y - this.size / 2 < 0) {
+        if (this.position.y + this.size.x / 2 > height || this.position.y - this.size.y / 2 < 0) {
             this.velY *= -1;
         }
     }
@@ -228,7 +228,7 @@ class Bullet {
     constructor(position, direction) {
         this.position = position;
         this.direction = direction;
-        this.size = 4;
+        this.size = { x: 4, y: 4 };
     }
 
     step() {
@@ -238,7 +238,7 @@ class Bullet {
 
     display() {
         fill(0, 255, 0);
-        ellipse(this.position.x, this.position.y, this.size, this.size);
+        ellipse(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 }
 
@@ -255,7 +255,7 @@ class CannonEnemy {
 
     display() {
         fill(255, 0, 0);
-        ellipse(this.position.x, this.position.y, 30, 30);
+        ellipse(this.position.x, this.position.y, this.size.x, this.size.y);
     }
 
     step() {
