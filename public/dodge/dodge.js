@@ -1,6 +1,118 @@
 const PLAYER_IDLE_COLOR = { r: 0, g: 0, b: 55 };
 const PLAYER_MOVE_COLOR = { r: 55, g: 100, b: 50 };
 
+let ronpob;
+let maLong;
+let clapper;
+let cannon;
+let homingMissile;
+let bullets = [];
+
+function setup() {
+    let canvas = createCanvas(800, 600);
+    ronpob = new Player('ronpob', { x: 20, y: 20 } , { x: 10, y: 20 });
+    maLong = new Enemy(50, { x: 50, y: 400 });
+    clapper = new ClapperEnemy({ x: 115, y: 35 }, { x: 0, y: height / 2 });
+    cannon = new CannonEnemy(20, { x: 10, y: 10 }, ronpob);
+    homingMissile = new HomingEnemy(20, { x: 10, y: 10 });
+}
+
+function draw() {
+    background(51);
+
+    if (mouseIsPressed && inCanvas({ x: mouseX, y: mouseY})) {
+        ronpob.target = { x: mouseX, y: mouseY };
+    }
+    clapper.step();
+    ronpob.step();
+    cannon.step();
+    maLong.step();
+    ronpob.isColliding = false;
+    for (let i = 0; i < bullets.length; ++i) {
+        let bullet = bullets[i];
+        bullet.step();
+
+        if (!inCanvas({ x: bullet.position.x, y: bullet.position.y })) {
+            bullets.splice(i, 1);
+            delete(bullet);
+            bullet = null;
+            --i;
+            continue;
+        }
+
+        if (circleRectCollision(bullet, ronpob)) {
+            ronpob.isColliding = true;
+        }
+        bullet.display();
+    }
+    console.log(bullets.length);
+    if (circleRectCollision(maLong, ronpob)) {
+        ronpob.isColliding = true;
+    }
+    if (rectRectCollision(clapper, ronpob)) {
+        ronpob.isColliding = true;
+    }
+    cannon.display();
+    clapper.display();
+    maLong.display();
+    ronpob.display();
+    homingMissile.display();
+}
+
+function rectRectCollision(rectA, rectB) {
+    let rect1 = {
+        x: rectA.position.x,
+        y: rectA.position.y,
+        width: rectA.size.x,
+        height: rectA.size.y
+    }, rect2 = {
+        x: rectB.position.x,
+        y: rectB.position.y,
+        width: rectB.size.x,
+        height: rectB.size.y
+    };
+
+    return (rect1.x < rect2.x + rect2.width &&
+           rect1.x + rect1.width > rect2.x &&
+           rect1.y < rect2.y + rect2.height &&
+           rect1.y + rect1.height > rect2.y);
+}
+
+function circleRectCollision(circle, rect) {
+    let cx = circle.position.x;
+    let cy = circle.position.y;
+    let rx = rect.position.x;
+    let ry = rect.position.y;
+    let rh = rect.size.y;
+    let rw = rect.size.x;
+    let testX = cx;
+    let testY = cy;
+    let rad = circle.size / 2;
+
+    if (cx < rx)         testX = rx;      // test left edge
+    else if (cx > rx+rw) testX = rx+rw;   // right edge
+    if (cy < ry)         testY = ry;      // top edge
+    else if (cy > ry+rh) testY = ry+rh;   // bottom edge
+
+    let d = dist(cx, cy, testX, testY);
+
+    if (d <= rad) {
+        return true;
+    }
+    return false;
+}
+
+function inCanvas(position) {
+    return (position.x <= width && 
+        position.x <= width && 
+        position.y >= 0 &&
+        position.y >= 0);
+}
+
+function fillColor(colorObject) {
+    fill(colorObject.r, colorObject.g, colorObject.b);
+}
+
 class Enemy {
     constructor(size, position) {
         this.size = size;
@@ -130,106 +242,6 @@ class CannonEnemy {
 
 }
 
-let ronpob;
-let maLong;
-let clapper;
-let cannon;
-let homingMissile;
-let bullets = [];
-
-function setup() {
-    let canvas = createCanvas(800, 600);
-    ronpob = new Player('ronpob', { x: 20, y: 20 } , { x: 10, y: 20 });
-    maLong = new Enemy(50, { x: 50, y: 400 });
-    clapper = new ClapperEnemy({ x: 115, y: 35 }, { x: 0, y: height / 2 });
-    cannon = new CannonEnemy(20, { x: 10, y: 10 }, ronpob);
-    homingMissile = new HomingEnemy(20, { x: 10, y: 10 });
-}
-
-function draw() {
-    background(51);
-
-    if (mouseIsPressed && inCanvas({ x: mouseX, y: mouseY})) {
-        ronpob.target = { x: mouseX, y: mouseY };
-    }
-    clapper.step();
-    ronpob.step();
-    cannon.step();
-    maLong.step();
-    ronpob.isColliding = false;
-    for (let i = 0; i < bullets.length; ++i) {
-        bullets[i].step();
-        if (circleRectCollision(bullets[i], ronpob)) {
-            ronpob.isColliding = true;
-        }
-        bullets[i].display();
-    }
-    if (circleRectCollision(maLong, ronpob)) {
-        ronpob.isColliding = true;
-    }
-    if (rectRectCollision(clapper, ronpob)) {
-        ronpob.isColliding = true;
-    }
-    cannon.display();
-    clapper.display();
-    maLong.display();
-    ronpob.display();
-    homingMissile.display();
-}
-
-function rectRectCollision(rectA, rectB) {
-    let rect1 = {
-        x: rectA.position.x,
-        y: rectA.position.y,
-        width: rectA.size.x,
-        height: rectA.size.y
-    }, rect2 = {
-        x: rectB.position.x,
-        y: rectB.position.y,
-        width: rectB.size.x,
-        height: rectB.size.y
-    };
-
-    return (rect1.x < rect2.x + rect2.width &&
-           rect1.x + rect1.width > rect2.x &&
-           rect1.y < rect2.y + rect2.height &&
-           rect1.y + rect1.height > rect2.y);
-}
-
-function circleRectCollision(circle, rect) {
-    let cx = circle.position.x;
-    let cy = circle.position.y;
-    let rx = rect.position.x;
-    let ry = rect.position.y;
-    let rh = rect.size.y;
-    let rw = rect.size.x;
-    let testX = cx;
-    let testY = cy;
-    let rad = circle.size / 2;
-
-    if (cx < rx)         testX = rx;      // test left edge
-    else if (cx > rx+rw) testX = rx+rw;   // right edge
-    if (cy < ry)         testY = ry;      // top edge
-    else if (cy > ry+rh) testY = ry+rh;   // bottom edge
-
-    let d = dist(cx, cy, testX, testY);
-
-    if (d <= rad) {
-        return true;
-    }
-    return false;
-}
-
-function inCanvas(position) {
-    return (position.x <= width && 
-        position.x <= width && 
-        position.y >= 0 &&
-        position.y >= 0);
-}
-
-function fillColor(colorObject) {
-    fill(colorObject.r, colorObject.g, colorObject.b);
-}
 
 class Player {
     constructor(name, size, position) {
