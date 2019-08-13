@@ -14,7 +14,7 @@ function setup() {
     maLong = new Enemy(50, { x: 50, y: 400 });
     clapper = new ClapperEnemy({ x: 115, y: 35 }, { x: 0, y: height / 2 });
     cannon = new CannonEnemy(20, { x: 10, y: 10 }, ronpob);
-    homingMissile = new HomingEnemy({ x: 20, y: 20 }, { x: 10, y: 10 });
+    homingMissile = new HomingEnemy({ x: 20, y: 20 }, { x: width / 2, y: height / 2 }, ronpob);
 }
 
 function draw() {
@@ -118,11 +118,14 @@ function fillColor(colorObject) {
 }
 
 class HomingEnemy {
-    constructor(size, position) {
+    // bug: sometimes it stops following target and runs off forever in 1 direction (should be reproducible)
+    constructor(size, position, target) {
         this.size = size;
         this.position = position;
         this.angle = 0;
-        this.speed = 5;
+        this.speed = 3;
+        this.rotationalSpeed = 3;
+        this.target = target;
     }
 
     step() {
@@ -130,9 +133,23 @@ class HomingEnemy {
     }
 
     move() {
-        this.angle += .02;
+        this.angleTowardsPlayer();
         this.position.x += Math.cos(this.angle) * this.speed;
         this.position.y += Math.sin(this.angle) * this.speed;
+    }
+
+    angleTowardsPlayer() {
+        let tx = this.target.position.x - this.position.x,
+            ty = this.target.position.y - this.position.y,
+            dist = Math.sqrt(tx * tx + ty * ty),
+            angle = Math.atan2(ty / dist, tx / dist);
+
+        if (Math.abs(2 * Math.PI + angle - this.angle) % (2 * Math.PI) > Math.PI) {
+            this.angle -= this.rotationalSpeed / 100;
+        } else {
+            this.angle += this.rotationalSpeed / 100;
+        }
+
     }
 
     display() {
