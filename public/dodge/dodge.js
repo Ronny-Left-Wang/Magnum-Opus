@@ -14,7 +14,7 @@ function setup() {
     maLong = new Enemy(50, { x: 50, y: 400 });
     clapper = new ClapperEnemy({ x: 115, y: 35 }, { x: 0, y: height / 2 });
     cannon = new CannonEnemy(20, { x: 10, y: 10 }, ronpob);
-    homingMissile = new HomingEnemy(20, { x: 10, y: 10 });
+    homingMissile = new HomingEnemy({ x: 20, y: 20 }, { x: 10, y: 10 });
 }
 
 function draw() {
@@ -27,7 +27,23 @@ function draw() {
     ronpob.step();
     cannon.step();
     maLong.step();
+    homingMissile.step();
     ronpob.isColliding = false;
+    updateBullets();
+    if (circleRectCollision(maLong, ronpob)) {
+        ronpob.isColliding = true;
+    }
+    if (rectRectCollision(clapper, ronpob)) {
+        ronpob.isColliding = true;
+    }
+    cannon.display();
+    clapper.display();
+    maLong.display();
+    ronpob.display();
+    homingMissile.display();
+}
+
+function updateBullets() {
     for (let i = 0; i < bullets.length; ++i) {
         let bullet = bullets[i];
         bullet.step();
@@ -45,18 +61,6 @@ function draw() {
         }
         bullet.display();
     }
-    console.log(bullets.length);
-    if (circleRectCollision(maLong, ronpob)) {
-        ronpob.isColliding = true;
-    }
-    if (rectRectCollision(clapper, ronpob)) {
-        ronpob.isColliding = true;
-    }
-    cannon.display();
-    clapper.display();
-    maLong.display();
-    ronpob.display();
-    homingMissile.display();
 }
 
 function rectRectCollision(rectA, rectB) {
@@ -111,6 +115,39 @@ function inCanvas(position) {
 
 function fillColor(colorObject) {
     fill(colorObject.r, colorObject.g, colorObject.b);
+}
+
+class HomingEnemy {
+    constructor(size, position) {
+        this.size = size;
+        this.position = position;
+        this.angle = 0;
+        this.speed = 5;
+    }
+
+    step() {
+        this.move();
+    }
+
+    move() {
+        this.angle += .02;
+        this.position.x += Math.cos(this.angle) * this.speed;
+        this.position.y += Math.sin(this.angle) * this.speed;
+    }
+
+    display() {
+        let nippleSize = {
+            x: .2 * this.size.x,
+            y: .2 * this.size.x,
+        };
+        fill(255, 255, 0);
+        ellipse(this.position.x, this.position.y, this.size.x, this.size.y);
+        fill(0);
+        let xOffset = this.size.x / 2 - nippleSize.x;
+        ellipse(this.position.x + Math.cos(this.angle) * xOffset, this.position.y + Math.sin(this.angle) * xOffset,
+            nippleSize.x, nippleSize.y);
+    }
+
 }
 
 class Enemy {
@@ -168,24 +205,6 @@ class ClapperEnemy {
         fill(55, 10, 15);
         rect(this.position.x, this.position.y, this.size.x, this.size.y);
     }
-}
-
-class HomingEnemy {
-    constructor(size, position) {
-        this.size = size;
-        this.position = position;
-        this.speed = 5;
-    }
-
-    move() {
-
-    }
-
-    display() {
-        fill(255, 255, 0);
-        ellipse(this.position.x, this.position.y, this.size, this.size);
-    }
-
 }
 
 class Bullet {
