@@ -103,10 +103,10 @@ function circleRectCollision(circle, rect) {
 }
 
 function inCanvas(position) {
-    return (position.x <= width && 
+    return (position.x >= 0 && 
         position.x <= width && 
         position.y >= 0 &&
-        position.y >= 0);
+        position.y <= height);
 }
 
 function fillColor(colorObject) {
