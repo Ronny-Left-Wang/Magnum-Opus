@@ -67,49 +67,44 @@ class HomingEnemy {
 
 }
 
+class Bullet {
+    constructor(position, direction) {
+        this.position = position;
+        this.direction = direction;
+        this.size = 4;
+    }
+
+    step() {
+        if (this.direction) {
+            this.position.x += this.direction.x;
+            this.position.y += this.direction.y;
+        }
+    }
+
+    display() {
+        fill(0, 255, 0);
+        ellipse(this.position.x, this.position.y, this.size, this.size);
+    }
+}
+
 class CannonEnemy {
-    constructor(size, position) {
+    constructor(size, position, target) {
         this.size = size;
         this.position = position;
-        this.target = { x: 50, y: 50 };
+        this.target = target;
         this.speed = 5;
     }
 
     display() {
-        if (this.target == null) {
-            fillColor(PLAYER_IDLE_COLOR);
-        } else {
-            fillColor(PLAYER_MOVE_COLOR);
-        }
-        ellipse(this.position.x, this.position.y, 20, 20);
+        fill(255, 0, 0);
+        ellipse(this.position.x, this.position.y, 30, 30);
     }
 
     step() {
         if (this.target) {
-            this.shootTowardTarget();
-        }
-    }
-
-    shootTowardTarget() {
-        let tx = this.target.x - this.position.x,
-            ty = this.target.y - this.position.y,
-            dist = Math.sqrt(tx * tx + ty * ty);
-
-        let postPosition = {
-            x: this.position.x + (tx / dist) * this.speed,
-            y: this.position.y + (ty / dist) * this.speed
-        };
-
-        let px = postPosition.x - this.position.x,
-            py = postPosition.y - this.position.y;
-        let postDist = Math.sqrt(px * px + py * py);
-
-        if (postDist > dist) {
-            this.position = this.target;
-            this.target = null;
-            return;
-        } else {
-            this.position = postPosition;
+            let bullet = new Bullet(this.target.position, { x: 0, y: 0 });
+            console.log('created bullet');
+            bullets.push(bullet);
         }
     }
 
@@ -120,6 +115,7 @@ let maLong;
 let clapper;
 let cannon;
 let homingMissile;
+let bullets = [];
 
 function setup() {
     let canvas = createCanvas(800, 600);
@@ -127,7 +123,7 @@ function setup() {
     ronpob = new Player('ronpob', 20, { x: 10, y: 20 });
     maLong = new Enemy(50, { x: 50, y: 400 });
     clapper = new ClapperEnemy({ x: 15, y: 35 }, { x: 0, y: height / 2 });
-    cannon = new CannonEnemy(20, { x: 10, y: 10 });
+    cannon = new CannonEnemy(20, { x: 10, y: 10 }, ronpob);
     homingMissile = new HomingEnemy(20, { x: 10, y: 10 });
 }
 
@@ -145,6 +141,10 @@ function draw() {
         maLong.isColliding = true;
     }
     // cannon.shootTowardTarget();
+    for (let i = 0; i < bullets.length; ++i) {
+        bullets[i].step();
+        bullets[i].display();
+    }
     cannon.display();
     clapper.display();
     maLong.display();
