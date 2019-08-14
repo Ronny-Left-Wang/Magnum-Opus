@@ -4,11 +4,21 @@ class Tower {
         this.size = size;
         this.position = position;
         this.atkSpeed = 2;
-        this.range = 70;
+        this.range = 200;
     }
 
     display() {
+        this.showRange();
+        fill(60, 25, 200);
         rect(this.position.x, this.position.y, this.size, this.size);
+    }
+
+    showRange() {
+        fill(0, 255, 255, 50);
+        ellipse(this.position.x, this.position.y, this.range, this.range);
+    }
+
+    enemyInRange() {
     }
 }
 
@@ -19,6 +29,7 @@ class Path {
 
     display() {
         for (let i = 0; i < this.points.length; i++) {
+            fill(50, 150, 50);
             ellipse(this.points[i][0], this.points[i][1], 10, 10);
         }
     }
@@ -34,6 +45,7 @@ class Enemy {
     }
 
     display() {
+        fill(255, 0, 0);
         ellipse(this.position.x, this.position.y, this.size, this.size);
     }
 
@@ -50,6 +62,7 @@ let towerExists = false;
 
 function setup() {
     createCanvas(800, 600);
+    rectMode(CENTER);
     const points = [
         [0, height / 2],
         [100, height / 2],
