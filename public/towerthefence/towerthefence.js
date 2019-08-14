@@ -1,10 +1,11 @@
 class Tower {
-    constructor(name, size, position, atkSpeed, range) {
+    constructor(name, size, position, range, damage) {
         this.name = name;
         this.size = size;
         this.position = position;
         this.atkSpeed = 2;
         this.range = 200;
+        this.damage = 1;
     }
 
     display() {
@@ -20,6 +21,26 @@ class Tower {
 
     enemyInRange() {
     }
+}
+
+class Bullet {
+    constructor(position, direction) {
+        this.position = position;
+        this.direction = direction;
+        this.speed = 4;
+        this.size = 4;
+    }
+
+    step() {
+
+    }
+
+    display() {
+        fill(255, 0, 0);
+        ellipse(this.position.x, this.position.y, this.size, this.size);
+    }
+
+
 }
 
 class Path {
