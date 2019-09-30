@@ -1,40 +1,50 @@
 class Tower {
-    constructor(name, size, position, range, damage, enemy) {
+    constructor(name, size, position, range, damage, enemies) {
         this.name = name;
         this.size = size;
         this.position = position;
         this.atkSpeed = 2;
         this.range = range;
         this.damage = damage;
-        this.enemy = enemy;
-        this.noEnemies = true;
+        this.enemies = enemies;
     }
 
     display() {
-        this.showRange();
         fill(60, 25, 200);
         rect(this.position.x, this.position.y, this.size, this.size);
     }
 
+    step() {
+        this.showRange();
+        this.shootAtEnemy();
+    }
+
     showRange() {
-        this.enemyInRange();
-        if (this.noEnemies) {
-            fill(0, 255, 255, 50);
-        } else {
+        if (this.enemyInRange()) {
             fill(255, 0, 0, 50);
+        } else {
+            fill(0, 255, 255, 50);
         }
         rect(this.position.x, this.position.y, this.range, this.range);
     }
 
-    enemyInRange() {
-        if (this.enemy.position.x - this.enemy.size /  2 <= this.position.x + this.range / 2 &&
-            this.enemy.position.x + this.enemy.size /  2 >= this.position.x - this.range / 2 &&
-            this.enemy.position.y <= this.position.y + this.range / 2 &&
-            this.enemy.position.y >= this.position.y - this.range / 2) {
-            this.noEnemies = false;
-        } else {
-            this.noEnemies = true;
+    shootAtEnemy() {
+        if (this.enemyInRange()) {
+            console.log("shooting at: " + this.enemies[0].position.x);
         }
+    }
+
+    enemyInRange() {
+        for (let i = 0; i < this.enemies.length; i++) {
+            this.enemy = enemies[i];
+            if (this.enemy.position.x - this.enemy.size /  2 <= this.position.x + this.range / 2 &&
+                this.enemy.position.x + this.enemy.size /  2 >= this.position.x - this.range / 2 &&
+                this.enemy.position.y <= this.position.y + this.range / 2 &&
+                this.enemy.position.y >= this.position.y - this.range / 2) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
@@ -42,7 +52,6 @@ let path;
 let enemy;
 let enemies = [];
 let towers = [];
-let towerExists = false;
 let maxEnemies = 2;
 
 function setup() {
@@ -57,21 +66,23 @@ function setup() {
         [width, height / 2]
     ];
     path = new Path(points);
-    enemy = new Enemy('peasant', 30, { x: 0, y: height / 2 }, 5, points);
+    enemy = new Enemy('peasant', 100, { x: 0, y: height / 2 }, 5, points);
     enemy2 = new Enemy('peasant', 30, { x: 0, y: height / 2 }, 2, points);
     enemies.push(enemy);
     enemies.push(enemy2);
 }
 
 function draw() {
+    let noUse = [];
+    let a = [];
     background(51);
 
-    if (towerExists) {
-        for (let i = 0; i < towers.length; i++) {
-            let tower = towers[i];
-            tower.display();
-        }
+    for (let i = 0; i < towers.length; i++) {
+        let tower = towers[i];
+        tower.step();
+        tower.display();
     }
+
     for (let i = 0; i < enemies.length; i++) {
         let enemy = enemies[i];
         enemy.step();
@@ -81,9 +92,8 @@ function draw() {
 }
 
 function mousePressed() {
-    let tower = new Tower('basic', 40, { x: mouseX, y: mouseY }, 200, 1, enemy);
+    let tower = new Tower('basic', 40, { x: mouseX, y: mouseY }, 200, 1, enemies);
     towers.push(tower);
-    towerExists = true;
 }
 
 class Enemy {
@@ -118,7 +128,7 @@ class Bullet {
     }
 
     step() {
-        
+
     }
 
     display() {
