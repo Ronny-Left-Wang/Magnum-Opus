@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/public", express.static(__dirname + '/public'));
 
-app.set('views', __dirname + '/jiews');
+app.set('views', __dirname + '/views');
 app.set('view engine', 'hbs');
 
 Game.createWorld();
