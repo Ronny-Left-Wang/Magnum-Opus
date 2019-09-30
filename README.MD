@@ -1,4 +1,4 @@
-# BRAIN DMG
+# Game made with Pixi.js
 
 ![sample](/public/images/lily.png)
 ![sample](/public/images/vanillaCanvas.png)
